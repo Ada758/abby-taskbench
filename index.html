@@ -170,6 +170,54 @@ body{
 .english-dual .read-col .words{font-size:12px;color:var(--ink-soft);margin-top:8px;padding:6px 10px;background:var(--orange-bg);border-radius:6px}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:0.8}}
 
+/* English record + playback */
+.english-dual .read-col .rec-btn{
+  border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;cursor:pointer;transition:all .15s;
+  background:#fee;border:1px solid #fcc;color:#c0392b;
+}
+.english-dual .read-col .rec-btn:hover{background:#fcc}
+.english-dual .read-col .rec-btn.recording{background:#e74c3c;color:#fff;border-color:#c0392b;animation:pulse 1s ease-in-out infinite}
+.english-dual .read-col .playback-btn{
+  border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;transition:all .15s;
+  background:#e8f5e9;border:1px solid #66bb6a;color:#27ae60;
+}
+.english-dual .read-col .playback-btn:hover{background:#c8e6c9}
+.english-dual .read-col .rec-status{font-size:11px;color:var(--ink-soft);margin-left:2px;min-width:40px}
+
+/* Word game */
+.word-game-area{
+  margin-top:12px;padding:12px;background:var(--card-2);
+  border-radius:8px;border:1px solid var(--orange-soft);
+}
+.word-game-area .game-title{
+  font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:8px;
+}
+.word-game-area .game-stats{
+  font-size:12px;color:var(--ink-soft);margin-bottom:8px;font-weight:600;
+}
+.word-game-area .game-stats.done{color:#27ae60}
+.word-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;
+}
+.word-card{
+  aspect-ratio:1;background:var(--card);border:2px solid var(--line);
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;
+  padding:4px;text-align:center;user-select:none;
+}
+.word-card:hover{border-color:var(--orange-soft)}
+.word-card.flipped{background:#FFF8E1;border-color:var(--orange)}
+.word-card.matched{background:#C8E6C9;border-color:#27ae60;cursor:default;opacity:0.7}
+.word-card .card-back{color:var(--ink-soft);font-size:18px}
+.word-card .card-front{font-size:13px}
+.word-game-area .game-controls{
+  background:var(--orange);color:#fff;border:none;border-radius:6px;
+  padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;
+}
+.word-game-area .game-controls:hover{background:var(--orange-deep)}
+
 /* English quiz */
 .en-quiz{margin-top:10px}
 .en-quiz .q-item{padding:8px;margin-bottom:6px;background:var(--card);border-radius:8px;border:1px solid var(--line)}
@@ -1079,7 +1127,7 @@ function renderMain(){
       // Right: script list with mic buttons
       html += '<div class="read-col">';
       if(child.script && child.script.length > 0){
-        html += '<div class="read-title">▶ 听原声 · 🎤 跟读</div>';
+        html += '<div class="read-title">▶ 听原声 · 🎤 跟读 · 🔴 配音</div>';
         child.script.forEach(function(line,i){
           html += '<div class="line-item" id="line-'+child.id+'-'+i+'">';
           html += '<div class="line-label">'+line.role+'</div>';
@@ -1088,13 +1136,25 @@ function renderMain(){
           html += '<div class="line-actions">';
           html += '<button class="play-btn" onclick="playLine(\''+child.id+'\','+i+')">▶</button>';
           html += '<button class="mic-btn" id="mic-'+child.id+'-'+i+'" onclick="startRead(\''+child.id+'\','+i+')">🎤</button>';
+          html += '<button class="rec-btn" id="rec-'+child.id+'-'+i+'" onclick="startRecord(\''+child.id+'\','+i+')">🔴</button>';
+          html += '<button class="playback-btn" id="pb-'+child.id+'-'+i+'" onclick="playbackRecord(\''+child.id+'\','+i+')" style="display:none">▶</button>';
           html += '<span class="read-result" id="result-'+child.id+'-'+i+'"></span>';
+          html += '<span class="rec-status" id="recstatus-'+child.id+'-'+i+'"></span>';
           html += '</div></div>';
         });
       }
       if(child.words){
         var wordsStr = Array.isArray(child.words) ? child.words.join(', ') : child.words;
         html += '<div class="words">重点单词：'+wordsStr+'</div>';
+      }
+      // Word challenge game (after words)
+      if(child.words && Array.isArray(child.words) && child.words.length > 0){
+        html += '<div class="word-game-area">';
+        html += '<div class="game-title">🎯 单词闯关 · 翻卡配对</div>';
+        html += '<div class="game-stats" id="gamestats-'+child.id+'">已配 0 / '+child.words.length+'</div>';
+        html += '<div class="word-grid" id="wordgrid-'+child.id+'"></div>';
+        html += '<button class="game-controls" onclick="resetWordGame(\''+child.id+'\')">🔄 重置</button>';
+        html += '</div>';
       }
       html += '</div></div>';
     }
@@ -1156,6 +1216,18 @@ function renderMain(){
   });
 
   main.innerHTML = html;
+
+  // Init word games for English tab
+  if(state.activeTab === 'english'){
+    var cat = TASKS.english;
+    cat.children.forEach(function(child){
+      if(child.words && Array.isArray(child.words) && child.words.length > 0){
+        if(!_games[child.id]){
+          initWordGame(child.id);
+        }
+      }
+    });
+  }
 }
 
 function renderMathQuiz(child){
@@ -1397,6 +1469,59 @@ function resetPlayed(){
 }
 
 /* ============ ENGLISH PLAY & READ ============ */
+
+// Word translation dictionary
+var WORD_DICT = {
+  // pronouns / verbs
+  'I':'我','am':'是','you':'你/你们','are':'是','he':'他','she':'她',
+  'is':'是','this':'这','that':'那','my':'我的','your':'你的','his':'他的',
+  'her':'她的','mine':'我的','yours':'你的','we':'我们','our':'我们的',
+  'their':'他们的','me':'我','us':'我们',
+  // characters
+  'King':'国王','Queen':'王后','Princess':'公主','Bob':'鲍勃(园丁)',
+  'Muzzy':'马泽(大Muzzy)','Corvax':'科瓦克斯(大臣)','Norman':'诺曼',
+  'Sylvia':'塞尔维亚(公主)','Cat':'猫',
+  // greetings
+  'hello':'你好','hi':'嗨','how':'怎样','do':'做','how_do':'你好',
+  'good':'好的','morning':'早上','afternoon':'下午','evening':'晚上',
+  'night':'夜晚','goodbye':'再见','bye':'再见','please':'请',
+  'thank':'谢谢','thanks':'谢谢','sorry':'对不起',
+  // common
+  'can':'能','have':'有','want':'想要','want_a':'想要一个',
+  'peach':'桃子','hamburger':'汉堡','salad':'沙拉','drink':'饮料',
+  'plum':'李子','grape':'葡萄','bike':'自行车','computer':'电脑',
+  'garden':'花园','bag':'包','map':'地图','clock':'钟',
+  'house':'房子','school':'学校','book':'书','friend':'朋友',
+  'strong':'强壮','fat':'胖','beautiful':'美丽','clever':'聪明',
+  'brave':'勇敢','big':'大','small':'小','tall':'高','short':'短',
+  'love':'爱','here':'这里','there':'那里','look':'看',
+  // colors
+  'red':'红色','blue':'蓝色','green':'绿色','yellow':'黄色',
+  'black':'黑色','white':'白色','orange':'橙色','pink':'粉色',
+  // numbers
+  'one':'一','two':'二','three':'三','four':'四','five':'五',
+  'six':'六','seven':'七','eight':'八','nine':'九','ten':'十',
+  // food
+  'apple':'苹果','banana':'香蕉','milk':'牛奶','water':'水',
+  'bread':'面包','egg':'鸡蛋','cake':'蛋糕','fish':'鱼',
+  // family
+  'mother':'妈妈','father':'爸爸','sister':'姐妹','brother':'兄弟',
+  'family':'家庭','baby':'宝贝',
+  // time
+  'today':'今天','tomorrow':'明天','time':'时间','day':'天',
+  // misc
+  'where':'哪里','what':'什么','who':'谁','in':'在...里','on':'在...上',
+  'under':'在...下','near':'附近','to':'到','a':'一个'
+};
+
+function getWordZh(word){
+  if(WORD_DICT[word]) return WORD_DICT[word];
+  // Fallback: use first 4 chars lowercase
+  var lower = word.toLowerCase();
+  if(WORD_DICT[lower]) return WORD_DICT[lower];
+  return word; // 找不到就显示原英文
+}
+
 function speakLine(text){
   try{
     if('speechSynthesis' in window){
@@ -1547,6 +1672,196 @@ function startRead(epId, idx){
     result.textContent = '启动失败';
     result.className = 'read-result retry';
   }
+}
+
+/* ============ ENGLISH RECORD (MEDIA RECORDER) ============ */
+var _recordings = {};  // { 'epId-idx': blobUrl, ... }
+var _activeRec = null;  // { epId, idx, recorder, timer, chunks, startedAt }
+
+function startRecord(epId, idx){
+  var btn = document.getElementById('rec-'+epId+'-'+idx);
+  var status = document.getElementById('recstatus-'+epId+'-'+idx);
+  if(!btn) return;
+  // Stop previous
+  if(_activeRec){
+    try{ _activeRec.recorder.stop(); }catch(e){}
+  }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    if(status){ status.textContent = '不支持录音'; }
+    return;
+  }
+  if(!window.MediaRecorder){
+    if(status){ status.textContent = '浏览器不支持'; }
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    var rec = new MediaRecorder(stream);
+    var chunks = [];
+    var startedAt = Date.now();
+    rec.ondataavailable = function(e){ if(e.data.size > 0) chunks.push(e.data); };
+    rec.onstop = function(){
+      stream.getTracks().forEach(function(t){ t.stop(); });
+      var blob = new Blob(chunks, {type:'audio/webm'});
+      var url = URL.createObjectURL(blob);
+      // Revoke old url
+      var key = epId+'-'+idx;
+      if(_recordings[key]) URL.revokeObjectURL(_recordings[key]);
+      _recordings[key] = url;
+      var dur = ((Date.now()-startedAt)/1000).toFixed(1);
+      btn.classList.remove('recording');
+      btn.textContent = '🔴';
+      btn.disabled = false;
+      var pbBtn = document.getElementById('pb-'+epId+'-'+idx);
+      if(pbBtn) pbBtn.style.display = '';
+      if(status){
+        status.textContent = '✓ ' + dur + '秒';
+        status.style.color = '#27ae60';
+      }
+      _activeRec = null;
+    };
+    rec.start();
+    _activeRec = {recorder:rec, stream:stream, epId:epId, idx:idx};
+    btn.classList.add('recording');
+    btn.textContent = '●';
+    btn.disabled = true;
+    if(status){
+      status.textContent = '● 录音中…';
+      status.style.color = '#e74c3c';
+    }
+    // Auto-stop after 6 seconds
+    setTimeout(function(){
+      if(_activeRec && _activeRec.recorder === rec && rec.state === 'recording'){
+        try{ rec.stop(); }catch(e){}
+      }
+    }, 6000);
+  }).catch(function(err){
+    if(status){
+      status.textContent = err.name === 'NotAllowedError' ? '请允许麦克风' : '录音失败';
+      status.style.color = '#e74c3c';
+    }
+  });
+}
+
+function playbackRecord(epId, idx){
+  var key = epId+'-'+idx;
+  var url = _recordings[key];
+  if(!url){
+    var status = document.getElementById('recstatus-'+epId+'-'+idx);
+    if(status) status.textContent = '还没录';
+    return;
+  }
+  var audio = new Audio(url);
+  audio.play().catch(function(e){
+    var status = document.getElementById('recstatus-'+epId+'-'+idx);
+    if(status) status.textContent = '回放失败';
+  });
+  // Visual feedback
+  var pbBtn = document.getElementById('pb-'+epId+'-'+idx);
+  if(pbBtn){
+    pbBtn.style.opacity = '0.5';
+    setTimeout(function(){ pbBtn.style.opacity = '1'; }, 500);
+  }
+}
+
+/* ============ WORD CHALLENGE GAME ============ */
+var _games = {};  // { epId: { matched:Set, flipped:[], locked:bool, pairs:[] } }
+
+function initWordGame(epId){
+  var child = findEnglishChild(epId);
+  if(!child || !child.words || child.words.length === 0) return;
+  // Build pairs (each word has 2 cards: en + zh)
+  var pairs = [];
+  child.words.forEach(function(w, i){
+    var zh = getWordZh(w);
+    pairs.push({type:'en', key:i, text:w, pair:i});
+    pairs.push({type:'zh', key:i, text:zh, pair:i});
+  });
+  // Shuffle
+  for(var j = pairs.length - 1; j > 0; j--){
+    var k = Math.floor(Math.random() * (j + 1));
+    var tmp = pairs[j]; pairs[j] = pairs[k]; pairs[k] = tmp;
+  }
+  _games[epId] = {pairs:pairs, matched:new Set(), flipped:[], locked:false};
+  renderWordGame(epId);
+}
+
+function renderWordGame(epId){
+  var game = _games[epId];
+  if(!game) return;
+  var grid = document.getElementById('wordgrid-'+epId);
+  var stats = document.getElementById('gamestats-'+epId);
+  if(!grid) return;
+  var child = findEnglishChild(epId);
+  var totalPairs = child ? child.words.length : 0;
+  if(stats){
+    if(game.matched.size === totalPairs){
+      stats.textContent = '🎉 已完成 ' + totalPairs + ' / ' + totalPairs;
+      stats.className = 'game-stats done';
+    }else{
+      stats.textContent = '已配 ' + game.matched.size + ' / ' + totalPairs;
+      stats.className = 'game-stats';
+    }
+  }
+  var html = '';
+  game.pairs.forEach(function(card, i){
+    if(game.matched.has(i)){
+      html += '<div class="word-card matched" style="opacity:0.5"><div class="card-front">'+card.text+'</div></div>';
+    }else{
+      html += '<div class="word-card" onclick="flipWord(\''+epId+'\','+i+')"><div class="card-back">?</div></div>';
+    }
+  });
+  grid.innerHTML = html;
+}
+
+function flipWord(epId, idx){
+  var game = _games[epId];
+  if(!game || game.locked || game.matched.has(idx)) return;
+  if(game.flipped.indexOf(idx) !== -1) return;
+  // Show flipped
+  var grid = document.getElementById('wordgrid-'+epId);
+  if(!grid) return;
+  var card = grid.children[idx];
+  if(!card) return;
+  var cardData = game.pairs[idx];
+  card.classList.add('flipped');
+  card.innerHTML = '<div class="card-front">'+cardData.text+'</div>';
+  // Audio feedback for english cards
+  if(cardData.type === 'en'){
+    try{
+      var u = new SpeechSynthesisUtterance(cardData.text);
+      u.lang = 'en-US';
+      u.rate = 0.7;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  game.flipped.push(idx);
+  // Check match
+  if(game.flipped.length === 2){
+    game.locked = true;
+    var i1 = game.flipped[0], i2 = game.flipped[1];
+    var c1 = game.pairs[i1], c2 = game.pairs[i2];
+    if(c1.pair === c2.pair && c1.type !== c2.type){
+      // Match!
+      game.matched.add(i1);
+      game.matched.add(i2);
+      setTimeout(function(){
+        game.flipped = [];
+        game.locked = false;
+        renderWordGame(epId);
+      }, 500);
+    }else{
+      // No match: flip back after 1s
+      setTimeout(function(){
+        game.flipped = [];
+        game.locked = false;
+        renderWordGame(epId);
+      }, 1200);
+    }
+  }
+}
+
+function resetWordGame(epId){
+  initWordGame(epId);
 }
 
 /* ============ BIG MUZZY SCENE SVG ============ */
@@ -1737,6 +2052,11 @@ window.resetPlayed = resetPlayed;
 window.speakLine = speakLine;
 window.playLine = playLine;
 window.startRead = startRead;
+window.startRecord = startRecord;
+window.playbackRecord = playbackRecord;
+window.initWordGame = initWordGame;
+window.resetWordGame = resetWordGame;
+window.flipWord = flipWord;
 
 init();
 
