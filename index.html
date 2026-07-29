@@ -276,128 +276,136 @@ var TASKS = {
   chinese: {
     name: '语文',
     icon: 'chinese',
-    goal: '二年级人教版语文上册预习与巩固',
+    goal: '二年级人教版语文上册预习与巩固 - 每课含朗读/生字/练习/读物',
     children: [
-      {id:'c1',title:'课文朗读 - 小蝌蚪找妈妈',video:'https://www.bilibili.com/video/BV1QsgXzGEx3',desc:'朗读课文《小蝌蚪找妈妈》，注意语气和节奏，感受小蝌蚪寻找妈妈的急切心情。'},
-      {id:'c2',title:'课文朗读 - 我是什么',video:'',desc:'朗读课文《我是什么》，体会水的变化过程，用不同的语气读出水的各种形态。'},
-      {id:'c3',title:'课文朗读 - 植物妈妈有办法',video:'',desc:'朗读课文《植物妈妈有办法》，感受植物传播种子的奇妙方法，读出趣味和好奇。'},
-      {id:'c4',title:'生字笔顺练习 - 第一单元生字',video:'',desc:'参考笔顺练习：https://www.sohu.com/a/812008664_121124337\n练习第一单元所有生字的正确笔顺，每字写3遍。'},
-      {id:'c5',title:'生字笔顺练习 - 第二单元生字',video:'',desc:'练习第二单元所有生字的正确笔顺，注意先横后竖、先撇后捺的规则。'},
-      {id:'c6',title:'练习册 - 第一单元测试',video:'',desc:'完成第一单元测试卷，包括看拼音写词语、选词填空、阅读理解等题型。'},
-      {id:'c7',title:'练习册 - 第二单元测试',video:'',desc:'完成第二单元测试卷，巩固本单元所学的字词和课文内容。'},
-      {id:'c8',title:'课外读物 - 《小蝌蚪找妈妈》绘本延伸阅读',video:'',desc:'阅读绘本版《小蝌蚪找妈妈》，了解更多青蛙成长的知识，画出小蝌蚪变青蛙的过程图。'},
-      {id:'c9',title:'课外读物 - 《植物妈妈有办法》自然科普绘本',video:'',desc:'阅读自然科普绘本，了解更多植物传播种子的方法：风力传播、动物传播、水力传播等。'},
-      {id:'c10',title:'课外读物 - 成语故事精选（与课文相关）',video:'',desc:'阅读成语故事：井底之蛙、守株待兔、拔苗助长等，每个成语写一句话造句练习。'}
+      // 第1课 小蝌蚪找妈妈
+      {id:'p1-1',title:'【第1课·小蝌蚪找妈妈】课文朗读',video:'https://www.bilibili.com/video/BV1QsgXzGEx3/',desc:'听标准朗读，跟读3遍',important:true},
+      {id:'p1-2',title:'【第1课·小蝌蚪找妈妈】生字笔顺',video:'https://www.sohu.com/a/812008664_121124337',desc:'课、那、给、说、过、可、以、吹、娃、哇 共10个生字，笔顺动画演示'},
+      {id:'p1-3',title:'【第1课·小蝌蚪找妈妈】练习册',video:'',desc:'看拼音写词语 + 比一比再组词 + 课文填空'},
+      {id:'p1-4',title:'【第1课·小蝌蚪找妈妈】课外读物',video:'https://www.bilibili.com/video/BV1QsgXzGEx3/',desc:'绘本《小蝌蚪找妈妈》延伸阅读 + 青蛙成长科普绘本'},
+      // 第2课 我是什么
+      {id:'p2-1',title:'【第2课·我是什么】课文朗读',video:'https://www.bilibili.com/video/BV1QsgXzGEx3/',desc:'听标准朗读，跟读3遍'},
+      {id:'p2-2',title:'【第2课·我是什么】生字笔顺',video:'https://www.sohu.com/a/812008664_121124337',desc:'晒、极、傍、管、别、到、给、落、降、雹 共10个生字'},
+      {id:'p2-3',title:'【第2课·我是什么】练习册',video:'',desc:'看拼音写词语 + 形近字组词 + 课文内容填空'},
+      {id:'p2-4',title:'【第2课·我是什么】课外读物',video:'',desc:'水的三态变化科普绘本 + 云雨雪形成动画'},
+      // 第3课 植物妈妈有办法
+      {id:'p3-1',title:'【第3课·植物妈妈有办法】课文朗读',video:'https://www.bilibili.com/video/BV1QsgXzGEx3/',desc:'听标准朗读，跟读3遍'},
+      {id:'p3-2',title:'【第3课·植物妈妈有办法】生字笔顺',video:'https://www.sohu.com/a/812008664_121124337',desc:'植、物、准、备、纷、发、好、娃、乘、共 共10个生字'},
+      {id:'p3-3',title:'【第3课·植物妈妈有办法】练习册',video:'',desc:'看拼音写词语 + 多音字组词 + 课文填空'},
+      {id:'p3-4',title:'【第3课·植物妈妈有办法】课外读物',video:'',desc:'植物种子传播方式科普绘本 + 蒲公英/苍耳/豌豆自然观察'}
     ]
   },
   math: {
     name: '数学',
     icon: 'math',
-    goal: '二年级人教版数学上册，每个知识点配动画片+图解+10道练习题',
+    goal: '二年级人教版数学上册 - 动画+图解+10题巩固，全程免费资源',
     children: [
-      {id:'m1',title:'长度单位（厘米和米）',video:'https://v.qq.com/x/cover/mzc00200ul8jnqy.html',
-        desc:'图解：1厘米≈大拇指的宽度，1米≈一步的长度\n100厘米 = 1米',
+      {id:'m1',title:'长度单位（厘米和米）',video:'https://www.iqiyi.com/v_2ffkwyee9lo.html',
+        desc:'1厘米=大拇指宽，1米=一步长。动画讲解+图解',
+        important:true,
         quiz:[
-          {q:'1厘米大约有多长？',opts:['一根手指宽','一臂长','一步长','一根头发宽'],ans:0},
-          {q:'1米等于多少厘米？',opts:['10厘米','50厘米','100厘米','1000厘米'],ans:2},
-          {q:'测量课桌的长度用什么单位？',opts:['米','厘米','千米','毫米'],ans:1},
-          {q:'小明身高120___?',opts:['厘米','米','千米','分米'],ans:0},
-          {q:'操场跑道长200___?',opts:['厘米','米','千米','分米'],ans:1},
-          {q:'一支铅笔大约长15___?',opts:['米','厘米','千米','毫米'],ans:1},
-          {q:'3米=___厘米?',opts:['30','300','3000','100'],ans:1},
-          {q:'500厘米=___米?',opts:['5','50','500','0.5'],ans:0},
-          {q:'比较大小：2米___150厘米',opts:['大于','小于','等于','无法比较'],ans:0},
-          {q:'门的高度大约是2___?',opts:['厘米','米','千米','毫米'],ans:1}
+          {q:'1厘米大约有多长？',opts:['一根手指宽','一臂长','一步长','一根头发宽'],a:0},
+          {q:'1米等于多少厘米？',opts:['10厘米','50厘米','100厘米','1000厘米'],a:2},
+          {q:'测量课桌的长度用什么单位？',opts:['米','厘米','千米','分米'],a:1},
+          {q:'小明身高120___?',opts:['厘米','米','千米','分米'],a:0},
+          {q:'操场跑道长200___?',opts:['厘米','米','千米','分米'],a:1},
+          {q:'一支铅笔大约长15___?',opts:['米','厘米','千米','分米'],a:1},
+          {q:'1米___30厘米',opts:['>','<','=','≈'],a:0},
+          {q:'一本书厚约1___?',opts:['米','厘米','千米','毫米'],a:1},
+          {q:'99厘米___1米',opts:['>','<','=','≈'],a:1},
+          {q:'教室长约8___?',opts:['米','厘米','千米','分米'],a:0}
         ]
       },
-      {id:'m2',title:'100以内的加法',video:'',
-        desc:'图解：竖式加法步骤\n1.相同数位对齐\n2.从个位加起\n3.个位满十向十位进1',
+      {id:'m2',title:'100以内的加法',video:'https://www.iqiyi.com/v_16f3d1a2l88.html',
+        desc:'竖式加法：相同数位对齐，从个位加起，满十进一',
         quiz:[
-          {q:'23 + 45 = ?',opts:['58','68','78','56'],ans:1},
-          {q:'37 + 29 = ?',opts:['56','66','76','56'],ans:1},
-          {q:'18 + 52 = ?',opts:['60','70','80','62'],ans:0},
-          {q:'46 + 38 = ?',opts:['74','84','94','72'],ans:1},
-          {q:'15 + 67 = ?',opts:['72','82','92','62'],ans:0},
-          {q:'39 + 41 = ?',opts:['70','80','90','60'],ans:1},
-          {q:'27 + 56 = ?',opts:['73','83','93','63'],ans:1},
-          {q:'34 + 48 = ?',opts:['72','82','92','62'],ans:1},
-          {q:'55 + 25 = ?',opts:['70','80','90','60'],ans:1},
-          {q:'61 + 19 = ?',opts:['70','80','90','60'],ans:1}
+          {q:'25+13=?',opts:['38','48','35','28'],a:0},
+          {q:'36+27=?',opts:['53','63','43','51'],a:1},
+          {q:'48+19=?',opts:['57','67','58','47'],a:1},
+          {q:'55+25=?',opts:['70','80','75','85'],a:1},
+          {q:'37+46=?',opts:['73','83','81','71'],a:1},
+          {q:'29+38=?',opts:['57','67','47','59'],a:1},
+          {q:'18+64=?',opts:['72','82','62','74'],a:1},
+          {q:'43+29=?',opts:['62','72','61','63'],a:1},
+          {q:'56+15=?',opts:['61','71','60','72'],a:1},
+          {q:'28+47=?',opts:['65','75','55','64'],a:0}
         ]
       },
-      {id:'m3',title:'100以内的减法',video:'',
-        desc:'图解：借位减法\n1.相同数位对齐\n2.从个位减起\n3.个位不够减，向十位借1当10',
+      {id:'m3',title:'100以内的减法',video:'https://www.iqiyi.com/v_16f3d1a2l88.html',
+        desc:'竖式减法：相同数位对齐，从个位减起，不够减向前一位借一当十',
         quiz:[
-          {q:'56 - 23 = ?',opts:['33','43','23','53'],ans:0},
-          {q:'72 - 38 = ?',opts:['24','34','44','14'],ans:1},
-          {q:'45 - 17 = ?',opts:['28','38','18','32'],ans:0},
-          {q:'80 - 36 = ?',opts:['34','44','54','24'],ans:1},
-          {q:'63 - 29 = ?',opts:['24','34','44','14'],ans:1},
-          {q:'91 - 45 = ?',opts:['36','46','56','26'],ans:0},
-          {q:'54 - 18 = ?',opts:['26','36','46','16'],ans:1},
-          {q:'75 - 48 = ?',opts:['17','27','37','7'],ans:1},
-          {q:'38 - 15 = ?',opts:['13','23','33','3'],ans:1},
-          {q:'67 - 39 = ?',opts:['18','28','38','8'],ans:1}
+          {q:'56-23=?',opts:['33','23','43','30'],a:0},
+          {q:'72-38=?',opts:['44','34','24','35'],a:1},
+          {q:'80-25=?',opts:['65','55','60','45'],a:0},
+          {q:'61-19=?',opts:['42','52','41','43'],a:0},
+          {q:'95-47=?',opts:['48','58','38','42'],a:0},
+          {q:'100-36=?',opts:['74','64','66','54'],a:1},
+          {q:'83-28=?',opts:['55','65','56','54'],a:0},
+          {q:'70-31=?',opts:['49','39','41','40'],a:1},
+          {q:'52-17=?',opts:['35','45','36','25'],a:0},
+          {q:'64-48=?',opts:['16','26','15','17'],a:0}
         ]
       },
-      {id:'m4',title:'表内乘法（2-5的乘法口诀）',video:'',
-        desc:'图解：乘法就是连加\n2×3 = 2+2+2 = 6\n3×4 = 3+3+3+3 = 12',
+      {id:'m4',title:'表内乘法（2-5的口诀）',video:'https://www.bilibili.com/video/BV1eiQFBJEwB/',
+        desc:'乘法就是连加。2×3=2+2+2=6',
+        important:true,
         quiz:[
-          {q:'2×3 = ?',opts:['5','6','8','4'],ans:1},
-          {q:'3×4 = ?',opts:['7','10','12','14'],ans:2},
-          {q:'4×5 = ?',opts:['9','15','20','25'],ans:2},
-          {q:'2×7 = ?',opts:['9','12','14','16'],ans:2},
-          {q:'3×6 = ?',opts:['9','15','18','21'],ans:2},
-          {q:'5×3 = ?',opts:['8','10','15','20'],ans:2},
-          {q:'4×4 = ?',opts:['8','12','16','20'],ans:2},
-          {q:'2×9 = ?',opts:['11','16','18','20'],ans:2},
-          {q:'3×8 = ?',opts:['11','18','24','27'],ans:2},
-          {q:'5×6 = ?',opts:['11','25','30','35'],ans:2}
+          {q:'2×3=?',opts:['6','5','8','9'],a:0},
+          {q:'3×4=?',opts:['7','12','14','16'],a:1},
+          {q:'4×5=?',opts:['9','20','25','16'],a:1},
+          {q:'5×5=?',opts:['20','25','30','15'],a:1},
+          {q:'2×8=?',opts:['10','16','18','12'],a:1},
+          {q:'3×6=?',opts:['9','18','12','15'],a:1},
+          {q:'4×4=?',opts:['8','12','16','20'],a:2},
+          {q:'5×3=?',opts:['8','15','10','12'],a:1},
+          {q:'2×7=?',opts:['9','14','12','16'],a:1},
+          {q:'3×3=?',opts:['6','9','12','15'],a:1}
         ]
       },
-      {id:'m5',title:'表内乘法（6-9的乘法口诀）',video:'',
-        desc:'6的口诀：六六三十六、六七四十二...\n9的口诀：九九八十一',
+      {id:'m5',title:'表内乘法（6-9的口诀）',video:'https://www.bilibili.com/video/BV1eiQFBJEwB/',
+        desc:'6×7=42，7×8=56，9的口诀有巧算方法',
+        important:true,
         quiz:[
-          {q:'6×7 = ?',opts:['36','42','48','54'],ans:1},
-          {q:'7×8 = ?',opts:['49','54','56','63'],ans:2},
-          {q:'8×9 = ?',opts:['64','72','81','56'],ans:1},
-          {q:'6×6 = ?',opts:['30','36','42','48'],ans:1},
-          {q:'7×7 = ?',opts:['42','49','56','63'],ans:1},
-          {q:'8×8 = ?',opts:['56','64','72','48'],ans:1},
-          {q:'9×9 = ?',opts:['72','81','90','63'],ans:1},
-          {q:'6×9 = ?',opts:['45','54','63','48'],ans:1},
-          {q:'7×9 = ?',opts:['56','63','72','49'],ans:1},
-          {q:'8×6 = ?',opts:['42','48','54','56'],ans:1}
+          {q:'6×7=?',opts:['36','42','48','49'],a:1},
+          {q:'7×8=?',opts:['54','56','64','48'],a:1},
+          {q:'8×9=?',opts:['64','72','81','56'],a:1},
+          {q:'9×9=?',opts:['72','81','90','99'],a:1},
+          {q:'6×8=?',opts:['42','48','54','40'],a:1},
+          {q:'7×7=?',opts:['42','49','56','40'],a:1},
+          {q:'8×8=?',opts:['56','64','72','48'],a:1},
+          {q:'9×5=?',opts:['40','45','50','54'],a:1},
+          {q:'6×9=?',opts:['48','54','56','45'],a:1},
+          {q:'7×9=?',opts:['56','63','72','54'],a:1}
         ]
       },
-      {id:'m6',title:'观察物体',video:'',
-        desc:'图解：从不同方向看同一个物体\n前面看→正面形状\n侧面看→侧面形状\n上面看→俯视形状',
+      {id:'m6',title:'观察物体',video:'https://www.iqiyi.com/v_2ffkwyee9lo.html',
+        desc:'从前面、侧面、上面看同一个物体，看到的形状不同',
         quiz:[
-          {q:'从正面看一个正方体，看到什么形状？',opts:['正方形','长方形','三角形','圆形'],ans:0},
-          {q:'从上面看一个圆柱体，看到什么形状？',opts:['正方形','圆形','三角形','长方形'],ans:1},
-          {q:'一个长方体从侧面看可能是什么形状？',opts:['只能是正方形','只能是长方形','可能是正方形或长方形','圆形'],ans:2},
-          {q:'从正面看一个球，看到什么形状？',opts:['正方形','圆形','三角形','半圆'],ans:1},
-          {q:'3个小正方体排成一排，从正面看有几个正方形？',opts:['1个','2个','3个','4个'],ans:2},
-          {q:'从侧面看3个小正方体排成一排，看到什么？',opts:['3个正方形','1个正方形','2个正方形','长方形'],ans:1},
-          {q:'一个圆柱从正面看是什么形状？',opts:['圆形','长方形','正方形','三角形'],ans:1},
-          {q:'站在物体左边看，看到的是哪个面？',opts:['正面','右侧面','左侧面','背面'],ans:2},
-          {q:'2个正方体上下叠放，从正面看有几个正方形？',opts:['1个','2个','3个','4个'],ans:1},
-          {q:'一个正方体，最多能同时看到几个面？',opts:['1个','2个','3个','4个'],ans:2}
+          {q:'从正面看圆柱体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:2},
+          {q:'从上面看圆柱体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:0},
+          {q:'从侧面看球体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:0},
+          {q:'从正面看正方体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:1},
+          {q:'一个长方体从不同方向看，可能看到？',opts:['都是正方形','都是长方形','不同形状','都是圆形'],a:2},
+          {q:'从侧面看圆柱，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:2},
+          {q:'哪两个物体从正面看形状相同？',opts:['球和圆柱','正方体和长方体','圆柱和球','都不同'],a:1},
+          {q:'从上面看正方体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:1},
+          {q:'观察一个水杯从侧面，看到的是？',opts:['圆形','正方形','长方形','都有可能'],a:3},
+          {q:'从正面看金字塔（圆锥），看到的是？',opts:['圆形','正方形','三角形','长方形'],a:2}
         ]
       },
-      {id:'m7',title:'认识时间',video:'',
-        desc:'图解：时针和分针的关系\n时针→短针，走一大格=1小时\n分针→长针，走一大格=5分钟\n1小时=60分钟',
+      {id:'m7',title:'认识时间',video:'https://www.iqiyi.com/v_2ffkwyee9lo.html',
+        desc:'时针走1大格=1小时，分针走1小格=1分钟，1时=60分',
         quiz:[
-          {q:'时针走一大格是多长时间？',opts:['1分钟','5分钟','1小时','12小时'],ans:2},
-          {q:'分针走一大格是多长时间？',opts:['1分钟','5分钟','10分钟','1小时'],ans:1},
-          {q:'分针走一圈是多长时间？',opts:['5分钟','30分钟','60分钟','12小时'],ans:2},
-          {q:'1小时等于多少分钟？',opts:['10分钟','30分钟','60分钟','100分钟'],ans:2},
-          {q:'钟面上有几个大格？',opts:['6个','10个','12个','60个'],ans:2},
-          {q:'钟面上有多少个小格？',opts:['12个','30个','60个','100个'],ans:2},
-          {q:'8:30时，时针指向哪里？',opts:['正好指向8','在8和9之间','指向9','指向6'],ans:1},
-          {q:'分针指向6，是多少分钟？',opts:['6分钟','10分钟','30分钟','60分钟'],ans:2},
-          {q:'3时15分，分针指向哪个数字？',opts:['1','3','15','6'],ans:0},
-          {q:'从2:00到2:30经过了多少时间？',opts:['10分钟','20分钟','30分钟','60分钟'],ans:2}
+          {q:'1时=?分',opts:['30分','60分','100分','10分'],a:1},
+          {q:'分针走一圈是？',opts:['1时','30分','60秒','12时'],a:0},
+          {q:'时针走1大格是？',opts:['1分','30分','1时','12时'],a:2},
+          {q:'8:30时针在？',opts:['8和9之间','9和10之间','8上','9上'],a:0},
+          {q:'分针指向6，是？分',opts:['6分','30分','60分','12分'],a:1},
+          {q:'3时15分，分针指向？',opts:['3','6','9','12'],a:0},
+          {q:'一天有多少小时？',opts:['12时','24时','60时','100时'],a:1},
+          {q:'9:45，分针指向？',opts:['9','12','6','3'],a:0},
+          {q:'1分=?秒',opts:['10秒','60秒','100秒','30秒'],a:1},
+          {q:'7:50再过20分是？',opts:['8:00','8:10','8:20','7:70'],a:1}
         ]
       }
     ]
@@ -408,159 +416,324 @@ var TASKS = {
     goal: '以 Big Muzzy 动画片系统学习英语，12集循序渐进',
     children: [
       {id:'e1',title:'第1集：I am... / I\'m...（自我介绍）',
-        video:'BV1LN9eBxEao',page:1,
-        desc:'Big Muzzy 第1集\n主题：自我介绍 "I am.../I\'m..."',
-        words:'I, am, you, are, he, she, is, Muzzy, Bob, king',
-        lines:['I\'m Muzzy.','What\'s your name?','I\'m Bob.','I am the King.','She is Sylvia.','He is Bob.','Are you Muzzy?','Yes, I am.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=1',
+        desc:'核心句型：I\'m... / 问候语 / 形容词',
+        important:true,
+        words:['I','am','you','are','he','she','is','King','Queen','hello'],
+        script:[
+          {role:'King', en:"How do you do?", zh:"你好。"},
+          {role:'King', en:"I'm the King.", zh:"我是国王。"},
+          {role:'King', en:"I'm the King of Gondoland.", zh:"我是贡多兰的国王。"},
+          {role:'Queen', en:"How do you do?", zh:"你好。"},
+          {role:'Queen', en:"I'm the Queen.", zh:"我是王后。"},
+          {role:'Princess', en:"Hello.", zh:"哈罗。"},
+          {role:'Princess', en:"I'm Princess Sylvia.", zh:"我是塞尔维亚公主。"},
+          {role:'Bob', en:"Oh! Sylvia! Sylvia!", zh:"哦！塞尔维亚！塞尔维亚！"},
+          {role:'Bob', en:"Hello. I'm Bob.", zh:"哈罗。我是鲍勃。"},
+          {role:'Bob', en:"I'm the gardener.", zh:"我是园丁。"},
+          {role:'Corvax', en:"How do you do? I'm Corvax.", zh:"你好。我是科瓦克斯。"},
+          {role:'Muzzy', en:"Hi! I'm Muzzy. Big Muzzy.", zh:"你好！我是马泽。大马泽。"},
+          {role:'Norman', en:"Good morning.", zh:"早上好。"},
+          {role:'Norman', en:"Good afternoon.", zh:"下午好。"},
+          {role:'Norman', en:"Good evening.", zh:"晚上好。"},
+          {role:'Norman', en:"Good night.", zh:"晚安。"},
+          {role:'King', en:"I'm strong.", zh:"我强壮。"},
+          {role:'Queen', en:"I'm fat.", zh:"我胖。"},
+          {role:'Princess', en:"I'm beautiful.", zh:"我美丽。"},
+          {role:'Corvax', en:"I'm clever.", zh:"我聪明。"},
+          {role:'Bob', en:"I'm brave.", zh:"我勇敢。"},
+          {role:'Princess', en:"I've got a bag. A big bag.", zh:"我有一个包。一个大大的包。"},
+          {role:'Princess', en:"I've got a map.", zh:"我有一张地图。"},
+          {role:'Princess', en:"I've got a hamburger.", zh:"我有一个汉堡包。"},
+          {role:'Bob', en:"I've got a bike. A motorbike.", zh:"我有一辆摩托车。"},
+          {role:'Corvax', en:"I've got a computer.", zh:"我有一台电脑。"},
+          {role:'King', en:"I've got a garden. Look!", zh:"我有一个花园。看！"},
+          {role:'King', en:"I've got plums. I've got peaches. I've got grapes.", zh:"我有李子。我有桃子。我有葡萄。"},
+          {role:'Princess', en:"Can I have a peach, please?", zh:"请问我能要一个桃子吗？"},
+          {role:'Norman', en:"Can I have a hamburger, please?", zh:"请问我能要一个汉堡包吗？"},
+          {role:'Waiter', en:"Here you are.", zh:"给你。"},
+          {role:'Norman', en:"Thank you.", zh:"谢谢你。"},
+          {role:'Bob', en:"I love you.", zh:"我爱你。"},
+          {role:'Princess', en:"And I love you.", zh:"我也爱你。"},
+          {role:'Corvax', en:"No! I love the Princess! I love Sylvia!", zh:"不！我爱公主！我爱塞尔维亚！"}
+        ],
         quiz:[
-          {q:'"I\'m Muzzy" 中 I\'m 是什么意思？',opts:['我是','你是','他是','她是'],ans:0},
-          {q:'"What\'s your name?" 是在问什么？',opts:['你叫什么名字','你几岁了','你在哪里','你喜欢什么'],ans:0},
-          {q:'"She is Sylvia" 中 She 指的是谁？',opts:['男孩','女孩/女人','动物','国王'],ans:1},
-          {q:'"Are you Muzzy?" 是什么类型的句子？',opts:['陈述句','疑问句','命令句','感叹句'],ans:1},
-          {q:'回答 "Yes, I am." 是在回答什么？',opts:['名字','身份确认','年龄','喜好'],ans:1}
+          {q:'"我是国王"用英语怎么说？',opts:["I'm the King.","You're the King.","He's the King.","Is the King."],a:0},
+          {q:'I ___ Muzzy.',opts:['am','is','are','be'],a:0},
+          {q:'"你好"问候语是？',opts:['Good night.','How do you do?','Goodbye.','See you.'],a:1},
+          {q:'She ___ beautiful.',opts:['am','is','are','be'],a:1},
+          {q:'I\'m brave. 中文意思是？',opts:['我聪明','我勇敢','我强壮','我胖'],a:1}
         ]
       },
       {id:'e2',title:'第2集：This is...（介绍他人）',
-        video:'BV1LN9eBxEao',page:2,
-        desc:'Big Muzzy 第2集\n主题：介绍他人 "This is..."',
-        words:'this, that, is, my, your, friend, name, hello',
-        lines:['This is my friend.','This is Bob.','That is the castle.','My name is Muzzy.','Your name is Bob.','Hello!','This is Sylvia.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=2',
+        desc:'核心句型：This is... / That is... / 物主代词',
+        words:['this','that','is','my','your','his','her','mine','yours'],
+        script:[
+          {role:'Bob', en:"This is Sylvia. She's a princess.", zh:"这是塞尔维亚。她是一位公主。"},
+          {role:'Bob', en:"This is Corvax. He's a minister.", zh:"这是科瓦克斯。他是一位大臣。"},
+          {role:'Corvax', en:"This is my computer.", zh:"这是我的电脑。"},
+          {role:'King', en:"That is my garden.", zh:"那是我的花园。"},
+          {role:'Queen', en:"That is my plum.", zh:"那是我的李子。"},
+          {role:'Princess', en:"This is my bag.", zh:"这是我的包。"},
+          {role:'Princess', en:"That is your bike.", zh:"那是你的摩托车。"},
+          {role:'Norman', en:"This is a hamburger.", zh:"这是一个汉堡包。"},
+          {role:'Norman', en:"That is a salad.", zh:"那是一个沙拉。"},
+          {role:'Norman', en:"What's this? It's a plum.", zh:"这是什么？这是李子。"},
+          {role:'Norman', en:"What's that? It's a peach.", zh:"那是什么？那是桃子。"},
+          {role:'Muzzy', en:"What's this? It's a clock.", zh:"这是什么？这是钟。"},
+          {role:'Corvax', en:"This is mine. That is yours.", zh:"这是我的。那是你的。"},
+          {role:'Princess', en:"This is yours, and that is mine.", zh:"这是你的，那是我的。"},
+          {role:'King', en:"My plum! My peach! My grapes!", zh:"我的李子！我的桃子！我的葡萄！"},
+          {role:'Bob', en:"Our garden. Their house.", zh:"我们的花园。他们的房子。"},
+          {role:'Muzzy', en:"I'm big. You're small.", zh:"我大。你小。"},
+          {role:'Cat', en:"Big! Small!", zh:"大！小！"}
+        ],
         quiz:[
-          {q:'"This is my friend." 中的 this 指什么？',opts:['远处的人','近处的人','自己','动物'],ans:1},
-          {q:'"That is the castle." 中的 that 指什么？',opts:['近处的城堡','远处的城堡','自己','朋友'],ans:1},
-          {q:'"My name is..." 中 My 是什么意思？',opts:['你的','我的','他的','她的'],ans:1},
-          {q:'"Your name is Bob" 中 Your 是什么意思？',opts:['我的','你的','我们的','他们的'],ans:1},
-          {q:'"This is..." 用来做什么？',opts:['问问题','介绍人或物','告别','买东西'],ans:1}
+          {q:'"This is my friend." 中的 this 指什么？',opts:['远处的人','近处的人','自己','动物'],a:1},
+          {q:'"That is the castle." 中的 that 指什么？',opts:['近处的城堡','远处的城堡','自己','朋友'],a:1},
+          {q:'"This is mine" 中 mine 是什么意思？',opts:['你的','我的','他的','她的'],a:1},
+          {q:'"This is..." 用来做什么？',opts:['问问题','介绍人或物','告别','买东西'],a:1}
         ]
       },
       {id:'e3',title:'第3集：Can I have...?（请求）',
-        video:'BV1LN9eBxEao',page:3,
-        desc:'Big Muzzy 第3集\n主题：请求 "Can I have...?"',
-        words:'can, have, please, want, give, eat, drink, hungry',
-        lines:['Can I have some food?','Please give me a drink.','I want to eat.','Can I have this?','I\'m hungry.','Can you help me?'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=3',
+        desc:'核心句型：Can I have...? / I want...',
+        words:['can','have','please','want','peach','hamburger','salad','drink'],
+        script:[
+          {role:'Norman', en:"Can I have a hamburger, please?", zh:"请问我能要一个汉堡包吗？"},
+          {role:'Waiter', en:"Here you are.", zh:"给你。"},
+          {role:'Norman', en:"Thank you. Can I have a salad?", zh:"谢谢。我能要一个沙拉吗？"},
+          {role:'Norman', en:"Can I have a drink, please?", zh:"请给我一杯饮料好吗？"},
+          {role:'Norman', en:"Can I have an ice-cream?", zh:"我能要一个冰激凌吗？"},
+          {role:'Princess', en:"Can I have a peach, Daddy?", zh:"爸爸，我能要一个桃子吗？"},
+          {role:'King', en:"Yes. A peach!", zh:"好的。一个桃子！"},
+          {role:'Queen', en:"A peach.", zh:"一个桃子。"},
+          {role:'Princess', en:"Thank you.", zh:"谢谢你。"},
+          {role:'Corvax', en:"I want the Princess.", zh:"我想要公主。"},
+          {role:'Corvax', en:"I want Sylvia.", zh:"我想要塞尔维亚。"},
+          {role:'Muzzy', en:"I want a clock.", zh:"我想要一个钟。"},
+          {role:'King', en:"I want plums.", zh:"我想要李子。"},
+          {role:'Queen', en:"I want peaches.", zh:"我想要桃子。"},
+          {role:'Bob', en:"I want a motorbike.", zh:"我想要一辆摩托车。"},
+          {role:'Corvax', en:"I want a computer.", zh:"我想要一台电脑。"},
+          {role:'Princess', en:"I want a rose.", zh:"我想要一朵玫瑰。"}
+        ],
         quiz:[
-          {q:'"Can I have some food?" 是在做什么？',opts:['自我介绍','请求食物','介绍朋友','告别'],ans:1},
-          {q:'"Please" 是什么意思？',opts:['谢谢','请','对不起','你好'],ans:1},
-          {q:'"I\'m hungry" 是什么意思？',opts:['我累了','我饿了','我渴了','我开心'],ans:1},
-          {q:'"Can you help me?" 是什么意思？',opts:['你能帮我吗？','你能介绍我吗？','你能吃饭吗？','你能走吗？'],ans:0},
-          {q:'请求时加上什么词更礼貌？',opts:['Hello','Please','Yes','No'],ans:1}
+          {q:'"Can I have some food?" 是在做什么？',opts:['自我介绍','请求食物','介绍朋友','告别'],a:1},
+          {q:'"Please" 是什么意思？',opts:['谢谢','请','对不起','你好'],a:1},
+          {q:'"I want a clock" 是什么意思？',opts:['我有一个钟','我想要一个钟','我喜欢钟','我在看钟'],a:1},
+          {q:'请求时加上什么词更礼貌？',opts:['Hello','Please','Yes','No'],a:1}
         ]
       },
       {id:'e4',title:'第4集：Where is...?（方位）',
-        video:'BV1LN9eBxEao',page:4,
-        desc:'Big Muzzy 第4集\n主题：方位 "Where is...?"',
-        words:'where, in, on, under, here, there, behind, next to',
-        lines:['Where is Bob?','He is in the castle.','She is under the tree.','The book is on the table.','It is behind the door.','Where are you?'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=4',
+        desc:'核心句型：Where is...? / 介词 on/in/under/next to',
+        words:['where','in','on','under','next to','here','there','table'],
+        script:[
+          {role:'Cat', en:"Where is the plum?", zh:"李子在哪里？"},
+          {role:'Cat', en:"It's on the table.", zh:"它在桌子上。"},
+          {role:'Cat', en:"It's in the bag.", zh:"它在包里。"},
+          {role:'Cat', en:"It's under the table.", zh:"它在桌子下面。"},
+          {role:'Norman', en:"Where is the peach?", zh:"桃子在哪里？"},
+          {role:'Norman', en:"It's next to the plum.", zh:"它在李子旁边。"},
+          {role:'Corvax', en:"Where is the Princess?", zh:"公主在哪里？"},
+          {role:'Bob', en:"She's in the garden.", zh:"她在花园里。"},
+          {role:'Muzzy', en:"Where am I?", zh:"我在哪里？"},
+          {role:'Muzzy', en:"I'm here!", zh:"我在这里！"}
+        ],
         quiz:[
-          {q:'"Where is Bob?" 是在问什么？',opts:['Bob是谁','Bob在哪里','Bob几岁','Bob在做什么'],ans:1},
-          {q:'"in" 表示什么位置？',opts:['上面','下面','里面','旁边'],ans:2},
-          {q:'"under the tree" 是什么意思？',opts:['在树上','在树下','在树旁','在树后'],ans:1},
-          {q:'"on the table" 是什么意思？',opts:['在桌子里','在桌子下面','在桌子上','在桌子旁'],ans:2},
-          {q:'"behind" 表示什么位置？',opts:['前面','后面','上面','里面'],ans:1}
+          {q:'"Where is Bob?" 是在问什么？',opts:['Bob是谁','Bob在哪里','Bob几岁','Bob在做什么'],a:1},
+          {q:'"in" 表示什么位置？',opts:['上面','下面','里面','旁边'],a:2},
+          {q:'"under the tree" 是什么意思？',opts:['在树上','在树下','在树旁','在树后'],a:1},
+          {q:'"on the table" 是什么意思？',opts:['在桌子里','在桌子下面','在桌子上','在桌子旁'],a:2},
+          {q:'"next to" 表示什么位置？',opts:['前面','后面','旁边','里面'],a:2}
         ]
       },
       {id:'e5',title:'第5集：颜色和数字',
-        video:'BV1LN9eBxEao',page:5,
-        desc:'Big Muzzy 第5集\n主题：颜色和数字',
-        words:'red, blue, green, yellow, one, two, three, four, five, six, seven, eight, nine, ten',
-        lines:['I like red.','The apple is red.','How many? One, two, three.','What color is this?','It is blue.','Green is my favorite color.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=5',
+        desc:'核心句型：What color is it? / How many?',
+        words:['red','blue','green','yellow','one','two','three','four','five','six','seven','eight','nine','ten'],
+        script:[
+          {role:'King', en:"What color is it?", zh:"它是什么颜色？"},
+          {role:'Queen', en:"It's red.", zh:"是红色。"},
+          {role:'Princess', en:"It's blue.", zh:"是蓝色。"},
+          {role:'Bob', en:"It's green.", zh:"是绿色。"},
+          {role:'Corvax', en:"It's yellow.", zh:"是黄色。"},
+          {role:'Norman', en:"One, two, three, four, five.", zh:"一，二，三，四，五。"},
+          {role:'Norman', en:"Six, seven, eight, nine, ten.", zh:"六，七，八，九，十。"},
+          {role:'Muzzy', en:"How many?", zh:"多少？"},
+          {role:'Cat', en:"Three plums!", zh:"三个李子！"},
+          {role:'Computer', en:"One, two, three... ten.", zh:"一，二，三…十。"}
+        ],
         quiz:[
-          {q:'"red" 是什么颜色？',opts:['蓝色','红色','绿色','黄色'],ans:1},
-          {q:'"blue" 是什么颜色？',opts:['红色','蓝色','绿色','黄色'],ans:1},
-          {q:'"How many?" 是在问什么？',opts:['什么颜色','多少个','在哪里','是谁'],ans:1},
-          {q:'数字 5 用英语怎么说？',opts:['three','four','five','six'],ans:2},
-          {q:'"What color is this?" 是在问什么？',opts:['数量','位置','颜色','名字'],ans:2}
+          {q:'"red" 是什么颜色？',opts:['蓝色','红色','绿色','黄色'],a:1},
+          {q:'"blue" 是什么颜色？',opts:['红色','蓝色','绿色','黄色'],a:1},
+          {q:'"How many?" 是在问什么？',opts:['什么颜色','多少个','在哪里','是谁'],a:1},
+          {q:'数字 5 用英语怎么说？',opts:['three','four','five','six'],a:2},
+          {q:'"What color is this?" 是在问什么？',opts:['数量','位置','颜色','名字'],a:2}
         ]
       },
       {id:'e6',title:'第6集：I like... / I don\'t like...（喜好）',
-        video:'BV1LN9eBxEao',page:6,
-        desc:'Big Muzzy 第6集\n主题：喜好 "I like.../I don\'t like..."',
-        words:'like, eat, apple, cake, banana, don\'t, love, hate',
-        lines:['I like apples.','I don\'t like cake.','Do you like bananas?','Yes, I do.','No, I don\'t.','I love ice cream.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=6',
+        desc:'核心句型：I like... / I don\'t like...',
+        words:['like','don\'t','plum','peach','grape','rose','hamburger','rain'],
+        script:[
+          {role:'Queen', en:"I like plums.", zh:"我喜欢李子。"},
+          {role:'Queen', en:"I like peaches.", zh:"我喜欢桃子。"},
+          {role:'King', en:"I like grapes.", zh:"我喜欢葡萄。"},
+          {role:'Norman', en:"I like hamburgers.", zh:"我喜欢汉堡包。"},
+          {role:'Princess', en:"I like roses.", zh:"我喜欢玫瑰花。"},
+          {role:'Bob', en:"I like you.", zh:"我喜欢你。"},
+          {role:'Corvax', en:"I don't like the gardener.", zh:"我不喜欢那个园丁。"},
+          {role:'Muzzy', en:"I like clocks.", zh:"我喜欢钟。"},
+          {role:'Queen', en:"I don't like rain.", zh:"我不喜欢下雨。"},
+          {role:'Princess', en:"I don't like Corvax.", zh:"我不喜欢科瓦克斯。"}
+        ],
         quiz:[
-          {q:'"I like apples" 是什么意思？',opts:['我讨厌苹果','我喜欢苹果','我想要苹果','我在吃苹果'],ans:1},
-          {q:'"I don\'t like cake" 是什么意思？',opts:['我喜欢蛋糕','我不喜欢蛋糕','我在吃蛋糕','我想要蛋糕'],ans:1},
-          {q:'"Do you like bananas?" 是什么类型的句子？',opts:['陈述句','疑问句','命令句','感叹句'],ans:1},
-          {q:'回答 "Yes, I do." 表示什么？',opts:['不喜欢','喜欢','不确定','讨厌'],ans:1},
-          {q:'"love" 比 "like" 的感情程度怎样？',opts:['更弱','一样','更强','相反'],ans:2}
+          {q:'"I like apples" 是什么意思？',opts:['我讨厌苹果','我喜欢苹果','我想要苹果','我在吃苹果'],a:1},
+          {q:'"I don\'t like cake" 是什么意思？',opts:['我喜欢蛋糕','我不喜欢蛋糕','我在吃蛋糕','我想要蛋糕'],a:1},
+          {q:'"I like you" 是什么意思？',opts:['我讨厌你','我喜欢你','我不认识你','我想你'],a:1},
+          {q:'"don\'t" 是什么意思？',opts:['是','不','喜欢','想要'],a:1}
         ]
       },
       {id:'e7',title:'第7集：What\'s this?（这是什么）',
-        video:'BV1LN9eBxEao',page:7,
-        desc:'Big Muzzy 第7集\n主题：事物 "What\'s this?"',
-        words:'what, this, it, thing, clock, computer, garden, forest',
-        lines:['What\'s this?','It\'s a clock.','What\'s that?','It\'s a computer.','This is a garden.','That is a forest.','Is this a book?'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=7',
+        desc:'核心句型：What\'s this/that? / They\'re...',
+        words:['what','this','that','it','clock','computer','garden','plum'],
+        script:[
+          {role:'Norman', en:"What's this?", zh:"这是什么？"},
+          {role:'Norman', en:"It's a plum.", zh:"这是李子。"},
+          {role:'Norman', en:"What's that?", zh:"那是什么？"},
+          {role:'Norman', en:"It's a peach.", zh:"那是桃子。"},
+          {role:'Muzzy', en:"What's this? It's a clock.", zh:"这是什么？这是钟。"},
+          {role:'Corvax', en:"What is it?", zh:"这是什么？"},
+          {role:'Computer', en:"It's a computer.", zh:"这是电脑。"},
+          {role:'Bob', en:"What are these?", zh:"这些是什么？"},
+          {role:'Bob', en:"They're plums.", zh:"它们是李子。"},
+          {role:'Princess', en:"What are those? They're grapes.", zh:"那些是什么？是葡萄。"}
+        ],
         quiz:[
-          {q:'"What\'s this?" 是在问什么？',opts:['这是谁','这是什么','这是哪里','这是什么颜色'],ans:1},
-          {q:'"It\'s a clock" 是什么意思？',opts:['这是一个钟','这是一本书','这是一棵树','这是一个花园'],ans:0},
-          {q:'"Is this a book?" 是什么类型的句子？',opts:['陈述句','疑问句','命令句','感叹句'],ans:1},
-          {q:'"forest" 是什么意思？',opts:['花园','森林','城堡','河流'],ans:1},
-          {q:'回答 "What\'s this?" 要用什么句式？',opts:['I am...','It\'s a...','She is...','He is...'],ans:1}
+          {q:'"What\'s this?" 是在问什么？',opts:['这是谁','这是什么','这是哪里','这是什么颜色'],a:1},
+          {q:'"It\'s a clock" 是什么意思？',opts:['这是一个钟','这是一本书','这是一棵树','这是一个花园'],a:0},
+          {q:'"What are these?" 是在问什么？',opts:['这是谁','这些是什么','那是什么','在哪里'],a:1},
+          {q:'回答 "What\'s this?" 要用什么句式？',opts:['I am...','It\'s a...','She is...','He is...'],a:1}
         ]
       },
       {id:'e8',title:'第8集：How many?（数量）',
-        video:'BV1LN9eBxEao',page:8,
-        desc:'Big Muzzy 第8集\n主题：数量 "How many?"',
-        words:'how, many, one through twenty, count, number, enough, more',
-        lines:['How many apples?','One, two, three, four, five.','How many are there?','There are ten.','Count with me.','Not enough.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=8',
+        desc:'核心句型：How many...? / There are...',
+        words:['how','many','one','two','three','ten','hundred','count','tree'],
+        script:[
+          {role:'Corvax', en:"How many trees?", zh:"有多少棵树？"},
+          {role:'Bob', en:"One, two, three... ten.", zh:"一，二，三…十。"},
+          {role:'Corvax', en:"How many bushes?", zh:"有多少个灌木丛？"},
+          {role:'Bob', en:"There are two, four, six, eight, ten.", zh:"有二，四，六，八，十。"},
+          {role:'Corvax', en:"How many flowers?", zh:"有多少朵花？"},
+          {role:'Bob', en:"A hundred? Two hundred?", zh:"一百？二百？"},
+          {role:'Computer', en:"How many trees are there?", zh:"有多少棵树？"},
+          {role:'Norman', en:"How many?", zh:"多少？"},
+          {role:'Cat', en:"Three plums!", zh:"三个李子！"},
+          {role:'Bob', en:"A hundred and seven. A hundred and ten.", zh:"一百零七。一百一十。"}
+        ],
         quiz:[
-          {q:'"How many?" 是在问什么？',opts:['什么颜色','多少个','在哪里','是谁'],ans:1},
-          {q:'数字 10 用英语怎么说？',opts:['eight','nine','ten','eleven'],ans:2},
-          {q:'"Count with me" 是什么意思？',opts:['跟我一起数','跟我一起唱','跟我一起跑','跟我一起画'],ans:0},
-          {q:'"Not enough" 是什么意思？',opts:['足够了','不够','太多了','正好'],ans:1},
-          {q:'"There are ten" 是什么意思？',opts:['有10个','有1个','有100个','有0个'],ans:0}
+          {q:'"How many?" 是在问什么？',opts:['什么颜色','多少个','在哪里','是谁'],a:1},
+          {q:'数字 10 用英语怎么说？',opts:['eight','nine','ten','eleven'],a:2},
+          {q:'"A hundred" 是什么意思？',opts:['十','一百','一千','一万'],a:1},
+          {q:'"How many trees?" 是在问什么？',opts:['树是什么','有多少棵树','树在哪里','树什么颜色'],a:1}
         ]
       },
       {id:'e9',title:'第9集：There is/are...（存在句）',
-        video:'BV1LN9eBxEao',page:9,
-        desc:'Big Muzzy 第9集\n主题：存在 "There is/are..."',
-        words:'there, some, any, is, are, one, many, lot, plenty',
-        lines:['There is a tree.','There are some flowers.','Is there any water?','There are a lot of apples.','There is one king.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=9',
+        desc:'核心句型：There is/are... / Is there...? / Are there...?',
+        words:['there','is','are','some','any','a lot of','plum','grape','garden'],
+        script:[
+          {role:'Norman', en:"There is a plum on the table.", zh:"桌上有一个李子。"},
+          {role:'Norman', en:"There are some grapes in the bag.", zh:"包里有一些葡萄。"},
+          {role:'King', en:"There is a garden.", zh:"有一个花园。"},
+          {role:'Queen', en:"There are peaches.", zh:"有桃子。"},
+          {role:'Corvax', en:"Is there a computer?", zh:"有电脑吗？"},
+          {role:'Bob', en:"Yes, there is.", zh:"是的，有。"},
+          {role:'Princess', en:"Are there any roses?", zh:"有玫瑰花吗？"},
+          {role:'Bob', en:"Yes, there are some.", zh:"是的，有一些。"},
+          {role:'Muzzy', en:"There is a big clock.", zh:"有一个大钟。"},
+          {role:'Norman', en:"There isn't a peach.", zh:"没有桃子。"}
+        ],
         quiz:[
-          {q:'"There is a tree" 是什么意思？',opts:['有一棵树','树在哪','我喜欢树','树是什么'],ans:0},
-          {q:'单数事物用什么？',opts:['There are','There is','There have','There do'],ans:1},
-          {q:'复数事物用什么？',opts:['There is','There are','There has','There does'],ans:1},
-          {q:'"Is there any water?" 是什么意思？',opts:['有水吗？','水是什么？','水在哪里？','我喜欢水'],ans:0},
-          {q:'"a lot of" 是什么意思？',opts:['一个','一些','很多','没有'],ans:2}
+          {q:'"There is a tree" 是什么意思？',opts:['有一棵树','树在哪','我喜欢树','树是什么'],a:0},
+          {q:'单数事物用什么？',opts:['There are','There is','There have','There do'],a:1},
+          {q:'复数事物用什么？',opts:['There is','There are','There has','There does'],a:1},
+          {q:'"Is there any water?" 是什么意思？',opts:['有水吗？','水是什么？','水在哪里？','我喜欢水'],a:0}
         ]
       },
       {id:'e10',title:'第10集：现在进行时',
-        video:'BV1LN9eBxEao',page:10,
-        desc:'Big Muzzy 第10集\n主题：现在进行时 "I am doing..."',
-        words:'doing, going, coming, eating, running, walking, sleeping, playing',
-        lines:['I am eating.','She is running.','He is going to the castle.','What are you doing?','I am walking.','They are playing.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=10',
+        desc:'核心句型：I am doing... / What are you doing?',
+        words:['doing','going','coming','eating','running','walking','waiting','working'],
+        script:[
+          {role:'King', en:"What are you doing?", zh:"你在做什么？"},
+          {role:'Bob', en:"I'm working.", zh:"我在工作。"},
+          {role:'Princess', en:"I'm waiting.", zh:"我在等。"},
+          {role:'Corvax', en:"I'm computing.", zh:"我在用电脑。"},
+          {role:'Queen', en:"I'm eating.", zh:"我在吃东西。"},
+          {role:'Norman', en:"He's coming.", zh:"他来了。"},
+          {role:'Muzzy', en:"I'm going.", zh:"我要走了。"},
+          {role:'Bob', en:"She's running.", zh:"她在跑。"},
+          {role:'Princess', en:"We're going!", zh:"我们出发！"},
+          {role:'Corvax', en:"They're going!", zh:"他们走了！"}
+        ],
         quiz:[
-          {q:'"I am eating" 表示什么时间？',opts:['过去','现在','将来','不确定'],ans:1},
-          {q:'现在进行时的构成是？',opts:['am/is/are + 动词','am/is/are + 动词ing','do + 动词','will + 动词'],ans:1},
-          {q:'"She is running" 是什么意思？',opts:['她正在跑步','她跑过了','她将要跑','她喜欢跑步'],ans:0},
-          {q:'"What are you doing?" 是在问什么？',opts:['你是谁','你在做什么','你在哪里','你喜欢什么'],ans:1},
-          {q:'"playing" 的原形是什么？',opts:['play','played','plays','playing'],ans:0}
+          {q:'"I am eating" 表示什么时间？',opts:['过去','现在','将来','不确定'],a:1},
+          {q:'现在进行时的构成是？',opts:['am/is/are + 动词','am/is/are + 动词ing','do + 动词','will + 动词'],a:1},
+          {q:'"She is running" 是什么意思？',opts:['她正在跑步','她跑过了','她将要跑','她喜欢跑步'],a:0},
+          {q:'"What are you doing?" 是在问什么？',opts:['你是谁','你在做什么','你在哪里','你喜欢什么'],a:1}
         ]
       },
       {id:'e11',title:'第11集：一般过去时',
-        video:'BV1LN9eBxEao',page:11,
-        desc:'Big Muzzy 第11集\n主题：一般过去时 "I was.../I went..."',
-        words:'was, were, went, came, ate, saw, did, had, yesterday',
-        lines:['I was hungry.','She was in the castle.','We went to the forest.','He came yesterday.','I saw a big clock.','They had fun.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=11',
+        desc:'核心句型：I was... / I went... / 一般过去时',
+        words:['was','were','went','came','saw','did','had','yesterday','angry'],
+        script:[
+          {role:'King', en:"Where was the Princess?", zh:"公主在哪里？"},
+          {role:'Queen', en:"She was in the garden.", zh:"她在花园里。"},
+          {role:'Bob', en:"I was here.", zh:"我在这里。"},
+          {role:'Corvax', en:"Where were they?", zh:"他们在哪里？"},
+          {role:'Norman', en:"They were in the garden.", zh:"他们在花园里。"},
+          {role:'Muzzy', en:"I was big.", zh:"我很大。"},
+          {role:'Bob', en:"We were happy.", zh:"我们很快乐。"},
+          {role:'Princess', en:"I went away.", zh:"我走开了。"},
+          {role:'King', en:"She came back.", zh:"她回来了。"},
+          {role:'Corvax', en:"I was angry.", zh:"我很生气。"}
+        ],
         quiz:[
-          {q:'"I was hungry" 表示什么时间？',opts:['现在','过去','将来','不确定'],ans:1},
-          {q:'"was" 是哪个词的过去式？',opts:['is','are','am','be'],ans:2},
-          {q:'"went" 是哪个词的过去式？',opts:['come','go','eat','see'],ans:1},
-          {q:'"He came yesterday" 中的 yesterday 是什么意思？',opts:['今天','明天','昨天','后天'],ans:2},
-          {q:'"They had fun" 是什么意思？',opts:['他们现在很开心','他们玩得很开心','他们将很开心','他们不开心'],ans:1}
+          {q:'"I was hungry" 表示什么时间？',opts:['现在','过去','将来','不确定'],a:1},
+          {q:'"was" 是哪个词的过去式？',opts:['is','are','am','be'],a:2},
+          {q:'"went" 是哪个词的过去式？',opts:['come','go','eat','see'],a:1},
+          {q:'"She came back" 是什么意思？',opts:['她走开了','她回来了','她没来','她将回来'],a:1}
         ]
       },
       {id:'e12',title:'第12集：复习与综合',
-        video:'BV1LN9eBxEao',page:12,
-        desc:'Big Muzzy 第12集\n主题：综合复习所有学过的内容',
-        words:'综合复习：I am, This is, Can I, Where, How many, I like, There is, doing, was, went',
-        lines:['I\'m Muzzy.','This is my friend Bob.','Can I have some food?','Where is the castle?','I like apples.','There is a garden.','I am eating.','I went to the forest.'],
+        video:'https://www.bilibili.com/video/BV1eiQFBJEwB/?p=12',
+        desc:'综合复习所有学过的内容',
+        words:['review','goodbye','love','happy','garden','plum','princess','gardener'],
+        script:[
+          {role:'Muzzy', en:"I'm big Muzzy.", zh:"我是大马泽。"},
+          {role:'Princess', en:"I'm Sylvia.", zh:"我是塞尔维亚。"},
+          {role:'Bob', en:"I'm Bob. I'm the gardener.", zh:"我是鲍勃。我是园丁。"},
+          {role:'King', en:"This is my garden.", zh:"这是我的花园。"},
+          {role:'Queen', en:"These are my plums.", zh:"这些是我的李子。"},
+          {role:'Corvax', en:"I was clever. Now I'm good.", zh:"我曾经聪明。现在我变好了。"},
+          {role:'Bob', en:"I love Sylvia.", zh:"我爱塞尔维亚。"},
+          {role:'Princess', en:"I love Bob.", zh:"我爱鲍勃。"},
+          {role:'King', en:"They're happy.", zh:"他们很快乐。"},
+          {role:'Muzzy', en:"Goodbye! See you soon!", zh:"再见！下次见！"}
+        ],
         quiz:[
-          {q:'"I\'m Muzzy" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],ans:0},
-          {q:'"Can I have some food?" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],ans:2},
-          {q:'"Where is the castle?" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],ans:3},
-          {q:'"I like apples" 用了什么句型？',opts:['自我介绍','喜好','请求','存在'],ans:1},
-          {q:'"There is a garden" 用了什么句型？',opts:['自我介绍','喜好','存在','方位'],ans:2}
+          {q:'"I\'m Muzzy" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],a:0},
+          {q:'"Can I have some food?" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],a:2},
+          {q:'"Where is the castle?" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],a:3},
+          {q:'"I love Bob" 是什么意思？',opts:['我喜欢鲍勃','我爱鲍勃','我不喜欢鲍勃','我认识鲍勃'],a:1},
+          {q:'"Goodbye" 是什么意思？',opts:['你好','再见','谢谢','对不起'],a:1}
         ]
       }
     ]
@@ -568,12 +741,15 @@ var TASKS = {
   game: {
     name: '游戏',
     icon: 'game',
-    goal: '通过完成作业获取积分，积分兑换 Minecraft 英语版游戏时间',
+    goal: '完成作业赚积分，兑换英语学习游戏时间',
     children: [
-      {id:'g1',title:'今日积分查看',desc:'每完成一项语文/数学/英语作业 +10 分\n全部完成额外 +50 分奖励\n查看今天完成作业获得的积分',isPointDisplay:true},
-      {id:'g2',title:'积分兑换游戏时间',desc:'50积分 = 15分钟游戏时间\n兑换后积分减少，游戏时间增加',isExchange:true},
-      {id:'g3',title:'Minecraft 英语版单词学习',desc:'游戏中常见英语单词：\nwood(木头), stone(石头), craft(制作), build(建造), mine(挖矿)\niron(铁), gold(金), diamond(钻石), sword(剑), pickaxe(镐)\nfarm(农场), wheat(小麦), bread(面包), furnace(熔炉), chest(箱子)',isWords:true},
-      {id:'g4',title:'游戏时间记录',desc:'建议每日游戏时间不超过30分钟\n记录今日已玩时间',isTimer:true}
+      {id:'g1',title:'今日积分查看',desc:'每完成一项语文/数学/英语作业 +10 分，全部完成 +50 分奖励',isPointDisplay:true,important:true},
+      {id:'g2',title:'积分兑换游戏时间（50分=15分钟）',desc:'今日可用积分：0 / 已兑换：0分钟 / 可玩 0 分钟',isExchange:true},
+      {id:'g3',title:'Minecraft 英语单词学习',video:'https://www.minecraft.net/',desc:'游戏中常见英语：wood(木头), stone(石头), craft(制作), build(建造), mine(挖矿), sword(剑), pickaxe(镐), torch(火把)',isWords:true},
+      {id:'g4',title:'ABC Mouse 英语游戏',video:'https://www.abcmouse.com/',desc:'免费在线英语学习游戏，含拼读、单词、对话游戏'},
+      {id:'g5',title:'PBS Kids 英语游戏',video:'https://pbskids.org/games/reading',desc:'免费英语学习游戏，适合二年级，含单词和拼写游戏'},
+      {id:'g6',title:'WordWorld 单词世界',video:'https://pbskids.org/wordworld',desc:'英语拼读动画+游戏，边玩边学单词'},
+      {id:'g7',title:'游戏时间记录',desc:'建议每日学习游戏时间不超过30分钟',isTimer:true}
     ]
   }
 };
@@ -796,7 +972,11 @@ function renderMain(){
     html += '<div class="'+completedCls+'">';
     html += '<div class="task-header">';
     html += '<div class="'+checkCls+'" onclick="toggleCheck(\''+child.id+'\')">'+checkContent+'</div>';
-    html += '<span class="'+titleCls+'">'+child.title+'</span>';
+    var titleHtml = child.title;
+    if(child.important){
+      titleHtml = '<span style="color:var(--orange)">★</span> ' + titleHtml;
+    }
+    html += '<span class="'+titleCls+'">'+titleHtml+'</span>';
     html += '<span class="'+expandCls+'" onclick="toggleExpand(\''+child.id+'\')">▼</span>';
     html += '</div>';
 
@@ -810,25 +990,34 @@ function renderMain(){
       html += '<div class="task-video"><a href="'+vUrl+'" target="_blank">▶ 观看视频</a></div>';
     }
 
-    // English special layout
-    if(state.activeTab === 'english' && child.video && child.video.startsWith('BV')){
+    // English special layout - extract bvid and page from full bilibili URL
+    var enBvid = null, enPage = 1;
+    if(state.activeTab === 'english' && child.video){
+      var bvMatch = child.video.match(/BV[\w]+/);
+      if(bvMatch){ enBvid = bvMatch[0]; }
+      var pMatch = child.video.match(/[?&]p=(\d+)/);
+      if(pMatch){ enPage = parseInt(pMatch[1]); }
+    }
+    if(state.activeTab === 'english' && enBvid){
       html += '<div class="english-dual">';
       html += '<div class="video-col">';
-      var page = child.page || 1;
-      html += '<iframe src="//player.bilibili.com/player.html?bvid='+child.video+'&page='+page+'&high_quality=1" width="100%" height="260" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>';
+      html += '<iframe src="//player.bilibili.com/player.html?bvid='+enBvid+'&page='+enPage+'&high_quality=1" width="100%" height="260" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>';
       html += '</div>';
       html += '<div class="read-col">';
-      if(child.lines && child.lines.length > 0){
+      if(child.script && child.script.length > 0){
         html += '<div style="font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">跟读台词</div>';
-        child.lines.forEach(function(line,i){
-          html += '<div class="line-item" onclick="speakLine(\''+line.replace(/'/g,"\\'")+'\')">';
-          html += '<div class="line-label">第'+(i+1)+'句</div>';
-          html += '<div>'+line+'</div>';
+        child.script.forEach(function(line,i){
+          var safeEn = line.en.replace(/'/g,"\\'");
+          html += '<div class="line-item" onclick="speakLine(\''+safeEn+'\')">';
+          html += '<div class="line-label">'+line.role+'</div>';
+          html += '<div>'+line.en+'</div>';
+          html += '<div style="font-size:12px;color:var(--ink-soft);margin-top:2px">'+line.zh+'</div>';
           html += '</div>';
         });
       }
       if(child.words){
-        html += '<div class="words">重点单词：'+child.words+'</div>';
+        var wordsStr = Array.isArray(child.words) ? child.words.join(', ') : child.words;
+        html += '<div class="words">重点单词：'+wordsStr+'</div>';
       }
       html += '</div></div>';
     }
@@ -845,7 +1034,7 @@ function renderMain(){
 
     // Description
     if(child.desc && (!child.quiz || state.activeTab !== 'math')){
-      if(state.activeTab !== 'english' || !child.video || !child.video.startsWith('BV')){
+      if(state.activeTab !== 'english' || !enBvid){
         html += '<div class="task-desc">'+child.desc.replace(/\n/g,'<br>')+'</div>';
       }
     }
@@ -893,24 +1082,26 @@ function renderMain(){
 }
 
 function renderMathQuiz(child){
+  var ansKey = function(q){ return q.a !== undefined ? q.a : q.ans; };
   var html = '<div class="math-quiz">';
   html += '<div style="font-size:14px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">练习题</div>';
   var answers = state.mathQuizAnswers[child.id] || {};
   var score = 0;
   child.quiz.forEach(function(q,i){
-    if(answers[i] === q.ans) score++;
+    if(answers[i] === ansKey(q)) score++;
   });
   html += '<div class="math-quiz" data-taskid="'+child.id+'">';
   child.quiz.forEach(function(q,i){
     var answered = answers[i];
-    var isCorrect = answered === q.ans;
+    var correctAns = ansKey(q);
+    var isCorrect = answered === correctAns;
     var isWrong = answered !== undefined && !isCorrect;
     html += '<div class="mq-item">';
     html += '<div class="mq-text">'+(i+1)+'. '+q.q+'</div>';
     html += '<div class="mq-opts">';
     q.opts.forEach(function(opt,oi){
       var optCls = 'mq-opt';
-      if(isCorrect && oi === q.ans) optCls = 'mq-opt correct';
+      if(isCorrect && oi === correctAns) optCls = 'mq-opt correct';
       if(isWrong && oi === answered) optCls = 'mq-opt wrong';
       var disabled = isCorrect ? 'style="pointer-events:none"' : '';
       html += '<div class="'+optCls+'" '+disabled+' onclick="answerMath(\''+child.id+'\','+i+','+oi+')">'+opt+'</div>';
@@ -924,23 +1115,25 @@ function renderMathQuiz(child){
 }
 
 function renderEnQuiz(child){
+  var ansKey = function(q){ return q.a !== undefined ? q.a : q.ans; };
   var html = '<div class="en-quiz">';
   html += '<div style="font-size:14px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">练习题</div>';
   var answers = state.enQuizAnswers[child.id] || {};
   var score = 0;
   child.quiz.forEach(function(q,i){
-    if(answers[i] === q.ans) score++;
+    if(answers[i] === ansKey(q)) score++;
   });
   child.quiz.forEach(function(q,i){
     var answered = answers[i];
-    var isCorrect = answered === q.ans;
+    var correctAns = ansKey(q);
+    var isCorrect = answered === correctAns;
     var isWrong = answered !== undefined && !isCorrect;
     html += '<div class="q-item">';
     html += '<div class="q-text">'+(i+1)+'. '+q.q+'</div>';
     html += '<div class="q-opts">';
     q.opts.forEach(function(opt,oi){
       var optCls = 'q-opt';
-      if(isCorrect && oi === q.ans) optCls = 'q-opt correct';
+      if(isCorrect && oi === correctAns) optCls = 'q-opt correct';
       if(isWrong && oi === answered) optCls = 'q-opt wrong';
       var disabled = isCorrect ? 'style="pointer-events:none"' : '';
       html += '<div class="'+optCls+'" '+disabled+' onclick="answerEn(\''+child.id+'\','+i+','+oi+')">'+opt+'</div>';
@@ -1013,10 +1206,11 @@ function checkMathQuizCompletion(id){
   var child = null;
   TASKS.math.children.forEach(function(c){ if(c.id === id) child = c; });
   if(!child || !child.quiz) return;
+  var ansKey = function(q){ return q.a !== undefined ? q.a : q.ans; };
   var answers = state.mathQuizAnswers[id] || {};
   var allCorrect = true;
   child.quiz.forEach(function(q,i){
-    if(answers[i] !== q.ans) allCorrect = false;
+    if(answers[i] !== ansKey(q)) allCorrect = false;
   });
   if(allCorrect && !state.checked[id]){
     state.checked[id] = true;
@@ -1027,10 +1221,11 @@ function checkEnQuizCompletion(id){
   var child = null;
   TASKS.english.children.forEach(function(c){ if(c.id === id) child = c; });
   if(!child || !child.quiz) return;
+  var ansKey = function(q){ return q.a !== undefined ? q.a : q.ans; };
   var answers = state.enQuizAnswers[id] || {};
   var allCorrect = true;
   child.quiz.forEach(function(q,i){
-    if(answers[i] !== q.ans) allCorrect = false;
+    if(answers[i] !== ansKey(q)) allCorrect = false;
   });
   if(allCorrect && !state.checked[id]){
     state.checked[id] = true;
@@ -1049,14 +1244,15 @@ function answerMath(taskId, qIdx, optIdx){
     var child = null;
     TASKS.math.children.forEach(function(c){ if(c.id === taskId) child = c; });
     if(!child) return;
+    var ansKey = function(q){ return q.a !== undefined ? q.a : q.ans; };
     var q = child.quiz[qIdx];
     // If already correct, skip
-    if(state.mathQuizAnswers[taskId][qIdx] === q.ans) return;
+    if(state.mathQuizAnswers[taskId][qIdx] === ansKey(q)) return;
     state.mathQuizAnswers[taskId][qIdx] = optIdx;
     // Check if all correct -> auto mark complete
     var allCorrect = true;
     child.quiz.forEach(function(qq,i){
-      if(state.mathQuizAnswers[taskId][i] !== qq.ans) allCorrect = false;
+      if(state.mathQuizAnswers[taskId][i] !== ansKey(qq)) allCorrect = false;
     });
     if(allCorrect){
       state.checked[taskId] = true;
@@ -1072,12 +1268,13 @@ function answerEn(taskId, qIdx, optIdx){
     var child = null;
     TASKS.english.children.forEach(function(c){ if(c.id === taskId) child = c; });
     if(!child) return;
+    var ansKey = function(q){ return q.a !== undefined ? q.a : q.ans; };
     var q = child.quiz[qIdx];
-    if(state.enQuizAnswers[taskId][qIdx] === q.ans) return;
+    if(state.enQuizAnswers[taskId][qIdx] === ansKey(q)) return;
     state.enQuizAnswers[taskId][qIdx] = optIdx;
     var allCorrect = true;
     child.quiz.forEach(function(qq,i){
-      if(state.enQuizAnswers[taskId][i] !== qq.ans) allCorrect = false;
+      if(state.enQuizAnswers[taskId][i] !== ansKey(qq)) allCorrect = false;
     });
     if(allCorrect){
       state.checked[taskId] = true;
