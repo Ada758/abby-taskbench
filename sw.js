@@ -1,4 +1,4 @@
-var CACHE_NAME = 'abby-taskbench-v3';
+var CACHE_NAME = 'abby-taskbench-v4';
 var CACHE_URLS = [
   './',
   './index.html'

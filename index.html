@@ -84,6 +84,30 @@ body{
   transition:all .2s;
 }
 .task-item.completed{opacity:.6;background:var(--bg-soft)}
+/* Main video entrance task (special styling) */
+.task-item.main-video{
+  background:linear-gradient(135deg,#FBE8D6 0%,#F2C9A8 100%);
+  border:2px solid var(--orange);
+  box-shadow:0 4px 12px rgba(232,115,44,0.15);
+  margin-bottom:12px;
+}
+.task-item.main-video .task-title{
+  font-weight:700;font-size:14px;color:var(--orange-deep);
+}
+.task-item.main-video .task-header{padding:14px}
+.task-item.main-video .main-play-btn{
+  display:block;width:100%;padding:10px;margin:0 0 10px;
+  background:var(--orange);color:#fff;border-radius:8px;
+  text-align:center;text-decoration:none;font-weight:700;font-size:14px;
+  box-shadow:0 2px 8px rgba(232,115,44,0.3);
+  transition:all .15s;
+}
+.task-item.main-video .main-play-btn:hover{background:var(--orange-deep);transform:translateY(-1px)}
+.task-item.main-video .main-desc{
+  padding:10px 14px 14px;background:rgba(255,255,255,0.6);
+  border-radius:0 0 8px 8px;font-size:13px;line-height:1.5;
+  color:#5A4530;font-weight:500;
+}
 .task-header{
   display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;
 }
@@ -322,10 +346,22 @@ var TASKS = {
   math: {
     name: '数学',
     icon: 'math',
-    goal: '二年级人教版数学上册 - 动画+图解+10题巩固，全程免费资源',
+    goal: 'DK 图解数学 + 清华小学数学启蒙动画 双剑合璧 - 7个核心知识点×10题巩固',
     children: [
-      {id:'m1',title:'长度单位（厘米和米）',video:'https://www.iqiyi.com/v_2ffkwyee9lo.html',
-        desc:'1厘米=大拇指宽，1米=一步长。动画讲解+图解',
+      // 两个主入口合集视频
+      {id:'m0',title:'⭐ 主视频：DK 图解数学动画（184集）',
+        video:'https://www.bilibili.com/video/BV1WVvKzhEAk/',
+        desc:'英国 DK 出版社原版+清华大学联合制作。184个核心知识点+274种数学思维，1-6年级全覆盖。配套课本，趣味动画讲解。',
+        important:true,
+        isMain:true},
+      {id:'m0b',title:'⭐ 主视频：清华小学数学启蒙动画（405集）',
+        video:'https://www.bilibili.com/video/BV1gHe9zqELi/',
+        desc:'清华附小名师制作，405集对应人教/北师/苏教三大主流版本课本，每集3-10分钟，按课本顺序配套讲解。',
+        important:true,
+        isMain:true},
+      // 7 个核心知识点（视频指向主视频合集中的对应章节）
+      {id:'m1',title:'长度单位（厘米和米）',video:'',
+        desc:'📺 在主视频合集中定位「长度单位 / 厘米和米」章节观看；1厘米=大拇指宽，1米=一步长',
         important:true,
         quiz:[
           {q:'1厘米大约有多长？',opts:['一根手指宽','一臂长','一步长','一根头发宽'],a:0},
@@ -340,8 +376,8 @@ var TASKS = {
           {q:'教室长约8___?',opts:['米','厘米','千米','分米'],a:0}
         ]
       },
-      {id:'m2',title:'100以内的加法',video:'https://www.iqiyi.com/v_16f3d1a2l88.html',
-        desc:'竖式加法：相同数位对齐，从个位加起，满十进一',
+      {id:'m2',title:'100以内的加法',video:'',
+        desc:'📺 主视频合集中「100以内加法」章节；竖式加法：相同数位对齐，从个位加起，满十进一',
         quiz:[
           {q:'25+13=?',opts:['38','48','35','28'],a:0},
           {q:'36+27=?',opts:['53','63','43','51'],a:1},
@@ -355,8 +391,8 @@ var TASKS = {
           {q:'28+47=?',opts:['65','75','55','64'],a:0}
         ]
       },
-      {id:'m3',title:'100以内的减法',video:'https://www.iqiyi.com/v_16f3d1a2l88.html',
-        desc:'竖式减法：相同数位对齐，从个位减起，不够减向前一位借一当十',
+      {id:'m3',title:'100以内的减法',video:'',
+        desc:'📺 主视频合集中「100以内减法」章节；竖式减法：相同数位对齐，从个位减起，不够减向前一位借一当十',
         quiz:[
           {q:'56-23=?',opts:['33','23','43','30'],a:0},
           {q:'72-38=?',opts:['44','34','24','35'],a:1},
@@ -370,8 +406,8 @@ var TASKS = {
           {q:'64-48=?',opts:['16','26','15','17'],a:0}
         ]
       },
-      {id:'m4',title:'表内乘法（2-5的口诀）',video:'https://www.bilibili.com/video/BV1eiQFBJEwB/',
-        desc:'乘法就是连加。2×3=2+2+2=6',
+      {id:'m4',title:'表内乘法（2-5的口诀）',video:'',
+        desc:'📺 主视频合集中「2-5乘法口诀」章节；乘法就是连加。2×3=2+2+2=6',
         important:true,
         quiz:[
           {q:'2×3=?',opts:['6','5','8','9'],a:0},
@@ -386,8 +422,8 @@ var TASKS = {
           {q:'3×3=?',opts:['6','9','12','15'],a:1}
         ]
       },
-      {id:'m5',title:'表内乘法（6-9的口诀）',video:'https://www.bilibili.com/video/BV1eiQFBJEwB/',
-        desc:'6×7=42，7×8=56，9的口诀有巧算方法',
+      {id:'m5',title:'表内乘法（6-9的口诀）',video:'',
+        desc:'📺 主视频合集中「6-9乘法口诀」章节；6×7=42，7×8=56，9的口诀有巧算方法',
         important:true,
         quiz:[
           {q:'6×7=?',opts:['36','42','48','49'],a:1},
@@ -402,8 +438,8 @@ var TASKS = {
           {q:'7×9=?',opts:['56','63','72','54'],a:1}
         ]
       },
-      {id:'m6',title:'观察物体',video:'https://www.iqiyi.com/v_2ffkwyee9lo.html',
-        desc:'从前面、侧面、上面看同一个物体，看到的形状不同',
+      {id:'m6',title:'观察物体',video:'',
+        desc:'📺 主视频合集中「观察物体」章节；从前面、侧面、上面看同一个物体，看到的形状不同',
         quiz:[
           {q:'从正面看圆柱体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:2},
           {q:'从上面看圆柱体，看到的是？',opts:['圆形','正方形','长方形','三角形'],a:0},
@@ -417,8 +453,8 @@ var TASKS = {
           {q:'从正面看金字塔（圆锥），看到的是？',opts:['圆形','正方形','三角形','长方形'],a:2}
         ]
       },
-      {id:'m7',title:'认识时间',video:'https://www.iqiyi.com/v_2ffkwyee9lo.html',
-        desc:'时针走1大格=1小时，分针走1小格=1分钟，1时=60分',
+      {id:'m7',title:'认识时间',video:'',
+        desc:'📺 主视频合集中「认识时间」章节；时针走1大格=1小时，分针走1小格=1分钟，1时=60分',
         quiz:[
           {q:'1时=?分',opts:['30分','60分','100分','10分'],a:1},
           {q:'分针走一圈是？',opts:['1时','30分','60秒','12时'],a:0},
@@ -986,7 +1022,8 @@ function renderMain(){
   allChildren.forEach(function(child){
     var isExpanded = state.expandedTasks[child.id];
     var isChecked = state.checked[child.id];
-    var completedCls = isChecked ? 'task-item completed' : 'task-item';
+    var baseCls = child.isMain ? 'task-item main-video' : 'task-item';
+    var completedCls = isChecked ? baseCls + ' completed' : baseCls;
     var checkCls = isChecked ? 'check checked' : 'check';
     var checkContent = isChecked ? '✓' : '';
     var titleCls = isChecked ? 'task-title done' : 'task-title';
@@ -997,7 +1034,7 @@ function renderMain(){
     html += '<div class="task-header">';
     html += '<div class="'+checkCls+'" onclick="toggleCheck(\''+child.id+'\')">'+checkContent+'</div>';
     var titleHtml = child.title;
-    if(child.important){
+    if(child.important && !child.isMain){
       titleHtml = '<span style="color:var(--orange)">★</span> ' + titleHtml;
     }
     html += '<span class="'+titleCls+'">'+titleHtml+'</span>';
@@ -1005,13 +1042,19 @@ function renderMain(){
     html += '</div>';
 
     html += '<div class="'+detailCls+'">';
-    // Video link
-    if(child.video && child.video !== ''){
+    // Main video entrance: render special card with prominent play button
+    if(child.isMain && child.video){
+      html += '<a class="main-play-btn" href="'+child.video+'" target="_blank">▶ 在 B 站观看完整合集</a>';
+    }else if(!child.isMain && child.video && child.video !== '' && child.video.indexOf('BV') !== -1 || (child.video && child.video.startsWith('http'))){
+      // Video link for non-main tasks with actual URLs
       var vUrl = child.video;
       if(vUrl.startsWith('BV')){
         vUrl = 'https://www.bilibili.com/video/' + vUrl;
       }
       html += '<div class="task-video"><a href="'+vUrl+'" target="_blank">▶ 观看视频</a></div>';
+    }else if(!child.isMain && child.desc && child.desc.indexOf('主视频合集') !== -1){
+      // Sub-task pointing to main video section: show reminder
+      html += '<div class="task-video" style="background:var(--card-2);padding:8px 10px;border-radius:6px;font-size:12px;color:var(--ink-soft)">📺 打开上方主视频合集，按章节定位</div>';
     }
 
     // English special layout - extract bvid and page from full bilibili URL
