@@ -110,17 +110,41 @@ body{
 
 /* English dual layout */
 .english-dual{display:flex;gap:10px;flex-wrap:wrap}
-.english-dual .video-col{flex:1;min-width:200px}
-.english-dual .video-col iframe{width:100%;height:260px;border-radius:8px;border:1px solid var(--line)}
+.english-dual .scene-col{flex:0 0 220px;min-width:200px;display:flex;flex-direction:column;gap:8px}
+.english-dual .scene-img{background:var(--card-2);border-radius:8px;border:1px solid var(--line);padding:8px;display:flex;align-items:center;justify-content:center;min-height:150px}
+.english-dual .scene-img svg{width:100%;height:auto;max-height:150px}
+.english-dual .scene-line{background:var(--card-2);border-radius:8px;padding:10px;border:1px solid var(--line);min-height:80px}
+.english-dual .scene-role{font-size:11px;font-weight:700;color:var(--orange-deep);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.english-dual .scene-en{font-size:14px;font-weight:600;color:var(--ink);min-height:18px;margin-bottom:2px}
+.english-dual .scene-zh{font-size:12px;color:var(--ink-soft);min-height:16px}
+.english-dual .scene-read{font-size:11px;color:var(--orange-deep);margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);min-height:16px;font-style:italic}
 .english-dual .read-col{flex:1;min-width:200px;background:var(--card-2);border-radius:8px;padding:10px}
+.english-dual .read-col .read-title{font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:8px}
 .english-dual .read-col .line-item{
-  padding:6px 10px;margin-bottom:4px;border-radius:6px;cursor:pointer;
+  padding:6px 10px;margin-bottom:4px;border-radius:6px;
   font-size:13px;background:var(--card);border:1px solid var(--line);
   transition:all .15s;
 }
+.english-dual .read-col .line-item.reading{background:var(--orange-bg);border-color:var(--orange)}
 .english-dual .read-col .line-item:hover{background:var(--orange-bg);border-color:var(--orange-soft)}
 .english-dual .read-col .line-label{font-weight:700;color:var(--orange-deep);font-size:11px;margin-bottom:2px}
+.english-dual .read-col .line-en{font-size:13px;margin-bottom:1px}
+.english-dual .read-col .line-zh{font-size:12px;color:var(--ink-soft);margin-bottom:4px}
+.english-dual .read-col .line-actions{display:flex;align-items:center;gap:6px}
+.english-dual .read-col .play-btn,.english-dual .read-col .mic-btn{
+  border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;transition:all .15s;
+}
+.english-dual .read-col .play-btn{background:var(--orange);color:#fff}
+.english-dual .read-col .play-btn:hover{background:var(--orange-deep)}
+.english-dual .read-col .mic-btn{background:var(--card-2);border:1px solid var(--line);color:var(--ink)}
+.english-dual .read-col .mic-btn.recording{background:#e74c3c;color:#fff;border-color:#c0392b;animation:pulse 1s ease-in-out infinite}
+.english-dual .read-col .read-result{font-size:11px;font-weight:600;margin-left:4px}
+.english-dual .read-col .read-result.ok{color:#27ae60}
+.english-dual .read-col .read-result.retry{color:var(--orange-deep)}
+.english-dual .read-col .read-result.nosupport{color:#999}
 .english-dual .read-col .words{font-size:12px;color:var(--ink-soft);margin-top:8px;padding:6px 10px;background:var(--orange-bg);border-radius:6px}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:0.8}}
 
 /* English quiz */
 .en-quiz{margin-top:10px}
@@ -1000,19 +1024,29 @@ function renderMain(){
     }
     if(state.activeTab === 'english' && enBvid){
       html += '<div class="english-dual">';
-      html += '<div class="video-col">';
-      html += '<iframe src="//player.bilibili.com/player.html?bvid='+enBvid+'&page='+enPage+'&high_quality=1" width="100%" height="260" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>';
-      html += '</div>';
+      // Left: scene image + current line display
+      html += '<div class="scene-col">';
+      html += '<div class="scene-img">' + getMuzzyScene(child.id) + '</div>';
+      html += '<div class="scene-line" id="sceneLine-'+child.id+'">';
+      html += '<div class="scene-role">Big Muzzy</div>';
+      html += '<div class="scene-en">点击右侧 ▶ 播放原声</div>';
+      html += '<div class="scene-zh">Click ▶ to play audio</div>';
+      html += '<div class="scene-read" id="sceneRead-'+child.id+'"></div>';
+      html += '</div></div>';
+      // Right: script list with mic buttons
       html += '<div class="read-col">';
       if(child.script && child.script.length > 0){
-        html += '<div style="font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">跟读台词</div>';
+        html += '<div class="read-title">▶ 听原声 · 🎤 跟读</div>';
         child.script.forEach(function(line,i){
-          var safeEn = line.en.replace(/'/g,"\\'");
-          html += '<div class="line-item" onclick="speakLine(\''+safeEn+'\')">';
+          html += '<div class="line-item" id="line-'+child.id+'-'+i+'">';
           html += '<div class="line-label">'+line.role+'</div>';
-          html += '<div>'+line.en+'</div>';
-          html += '<div style="font-size:12px;color:var(--ink-soft);margin-top:2px">'+line.zh+'</div>';
-          html += '</div>';
+          html += '<div class="line-en">'+line.en+'</div>';
+          html += '<div class="line-zh">'+line.zh+'</div>';
+          html += '<div class="line-actions">';
+          html += '<button class="play-btn" onclick="playLine(\''+child.id+'\','+i+')">▶</button>';
+          html += '<button class="mic-btn" id="mic-'+child.id+'-'+i+'" onclick="startRead(\''+child.id+'\','+i+')">🎤</button>';
+          html += '<span class="read-result" id="result-'+child.id+'-'+i+'"></span>';
+          html += '</div></div>';
         });
       }
       if(child.words){
@@ -1319,6 +1353,7 @@ function resetPlayed(){
   }catch(e){console.error('resetPlayed error',e)}
 }
 
+/* ============ ENGLISH PLAY & READ ============ */
 function speakLine(text){
   try{
     if('speechSynthesis' in window){
@@ -1328,6 +1363,253 @@ function speakLine(text){
       speechSynthesis.speak(u);
     }
   }catch(e){console.error('speakLine error',e)}
+}
+
+function findEnglishChild(epId){
+  var eps = TASKS.english.children;
+  for(var i=0;i<eps.length;i++){
+    if(eps[i].id === epId){ return eps[i]; }
+  }
+  return null;
+}
+
+function playLine(epId, idx){
+  var child = findEnglishChild(epId);
+  if(!child || !child.script || !child.script[idx]) return;
+  var line = child.script[idx];
+  // Update left scene panel
+  var scene = document.getElementById('sceneLine-'+epId);
+  if(scene){
+    scene.querySelector('.scene-role').textContent = line.role;
+    scene.querySelector('.scene-en').textContent = line.en;
+    scene.querySelector('.scene-zh').textContent = line.zh;
+  }
+  // Highlight current line
+  var allLines = document.querySelectorAll('.read-col .line-item');
+  allLines.forEach(function(l){ l.classList.remove('reading'); });
+  var curLine = document.getElementById('line-'+epId+'-'+idx);
+  if(curLine){ curLine.classList.add('reading'); }
+  // Speak
+  try{
+    if('speechSynthesis' in window){
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(line.en);
+      u.lang = 'en-US';
+      u.rate = 0.8;
+      speechSynthesis.speak(u);
+    }
+  }catch(e){console.error('playLine error',e)}
+}
+
+function normalizeText(s){
+  return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+}
+
+function levenshtein(a, b){
+  if(a.length === 0) return b.length;
+  if(b.length === 0) return a.length;
+  var m = [];
+  for(var i=0;i<=b.length;i++){ m[i] = [i]; }
+  for(var j=0;j<=a.length;j++){ m[0][j] = j; }
+  for(var i=1;i<=b.length;i++){
+    for(var j=1;j<=a.length;j++){
+      if(b.charAt(i-1) === a.charAt(j-1)){ m[i][j] = m[i-1][j-1]; }
+      else{ m[i][j] = Math.min(m[i-1][j-1]+1, m[i][j-1]+1, m[i-1][j]+1); }
+    }
+  }
+  return m[b.length][a.length];
+}
+
+function compareText(original, recognized){
+  var a = normalizeText(original);
+  var b = normalizeText(recognized);
+  if(a.length === 0) return 0;
+  var dist = levenshtein(a, b);
+  var maxLen = Math.max(a.length, b.length);
+  return Math.round((1 - dist/maxLen) * 100);
+}
+
+var _activeRec = null;
+function startRead(epId, idx){
+  var child = findEnglishChild(epId);
+  if(!child || !child.script || !child.script[idx]) return;
+  var line = child.script[idx];
+  var micBtn = document.getElementById('mic-'+epId+'-'+idx);
+  var result = document.getElementById('result-'+epId+'-'+idx);
+  var sceneRead = document.getElementById('sceneRead-'+epId);
+  if(!micBtn || !result) return;
+  // Stop any active recognition
+  if(_activeRec){
+    try{ _activeRec.stop(); }catch(e){}
+    _activeRec = null;
+  }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    result.textContent = '不支持语音识别，请用Chrome';
+    result.className = 'read-result nosupport';
+    return;
+  }
+  var rec = new SR();
+  rec.lang = 'en-US';
+  rec.interimResults = true;
+  rec.continuous = false;
+  _activeRec = rec;
+  micBtn.classList.add('recording');
+  micBtn.textContent = '●';
+  result.textContent = '录音中…';
+  result.className = 'read-result retry';
+  if(sceneRead){ sceneRead.textContent = '🎧 正在听…'; }
+  var finalText = '';
+  rec.onresult = function(event){
+    var interim = '';
+    for(var i=event.resultIndex;i<event.results.length;i++){
+      if(event.results[i].isFinal){ finalText += event.results[i][0].transcript; }
+      else{ interim += event.results[i][0].transcript; }
+    }
+    if(sceneRead){
+      sceneRead.textContent = '你说：' + (finalText || interim);
+    }
+    if(finalText){
+      var score = compareText(line.en, finalText);
+      if(score >= 80){
+        result.textContent = '✓ 很棒！ ' + score + '%';
+        result.className = 'read-result ok';
+      }else{
+        result.textContent = '↻ ' + score + '% 再试';
+        result.className = 'read-result retry';
+      }
+    }
+  };
+  rec.onerror = function(e){
+    if(e.error === 'not-allowed'){
+      result.textContent = '请允许麦克风权限';
+    }else{
+      result.textContent = '识别出错';
+    }
+    result.className = 'read-result retry';
+    if(sceneRead){ sceneRead.textContent = ''; }
+  };
+  rec.onend = function(){
+    micBtn.classList.remove('recording');
+    micBtn.textContent = '🎤';
+    if(_activeRec === rec){ _activeRec = null; }
+    if(result.textContent === '录音中…'){
+      result.textContent = '未听到，再试';
+      result.className = 'read-result retry';
+    }
+  };
+  try{ rec.start(); }catch(e){
+    micBtn.classList.remove('recording');
+    micBtn.textContent = '🎤';
+    result.textContent = '启动失败';
+    result.className = 'read-result retry';
+  }
+}
+
+/* ============ BIG MUZZY SCENE SVG ============ */
+function getMuzzyScene(epId){
+  // Scene configurations: characters + background color per episode
+  var scenes = {
+    'e1': {bg:'#DCE5D8', chars:['muzzy','king','queen'], label:'I am...'},
+    'e2': {bg:'#E8D5C4', chars:['bob','sylvia','corvax'], label:'This is...'},
+    'e3': {bg:'#D4C5DB', chars:['norman','king','sylvia'], label:'Can I have...?'},
+    'e4': {bg:'#C4DBD4', chars:['corvax','muzzy','cat'], label:'Where is...?'},
+    'e5': {bg:'#DBD4C4', chars:['king','queen','bob'], label:'Colors & Numbers'},
+    'e6': {bg:'#C9D4DB', chars:['muzzy','sylvia','corvax'], label:'I can...'},
+    'e7': {bg:'#D4DBC9', chars:['bob','king','queen'], label:'Time'},
+    'e8': {bg:'#DBC4D4', chars:['norman','muzzy','cat'], label:'Food'},
+    'e9': {bg:'#C4D4DB', chars:['sylvia','bob','corvax'], label:'Family'},
+    'e10': {bg:'#DBE5D8', chars:['king','muzzy','queen'], label:'Weather'},
+    'e11': {bg:'#E5DBC4', chars:['bob','sylvia','norman'], label:'Feelings'},
+    'e12': {bg:'#D4DBE5', chars:['muzzy','king','corvax'], label:'Goodbye'}
+  };
+  var sc = scenes[epId] || scenes['e1'];
+  var svg = '<svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">';
+  svg += '<rect width="280" height="180" rx="8" fill="'+sc.bg+'"/>';
+  // Draw characters
+  var positions = [60, 140, 220];
+  var names = {muzzy:'#6B8E5A',king:'#D4A574',queen:'#C49B7E',bob:'#7BA3C7',sylvia:'#E0A0B0',corvax:'#8B7DAE',norman:'#D4C974',cat:'#A0A0A0'};
+  var xOffsets = [60, 140, 220];
+  sc.chars.forEach(function(ch, i){
+    var x = xOffsets[i] || 60;
+    var color = names[ch] || '#999';
+    svg += drawChar(ch, x, 130, color);
+  });
+  // Ground line
+  svg += '<line x1="20" y1="155" x2="260" y2="155" stroke="#A8B89A" stroke-width="2"/>';
+  // Label
+  svg += '<text x="140" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#6B7B5A" font-family="Arial">Big Muzzy</text>';
+  svg += '<text x="140" y="42" text-anchor="middle" font-size="10" fill="#8A9A7A" font-family="Arial">'+sc.label+'</text>';
+  svg += '</svg>';
+  return svg;
+}
+
+function drawChar(type, x, y, color){
+  var s = '';
+  if(type === 'muzzy'){
+    // Big round green alien
+    s += '<circle cx="'+x+'" cy="'+(y-40)+'" r="28" fill="'+color+'"/>'; // head
+    s += '<circle cx="'+(x-10)+'" cy="'+(y-42)+'" r="5" fill="#fff"/>'; // left eye
+    s += '<circle cx="'+(x+10)+'" cy="'+(y-42)+'" r="5" fill="#fff"/>'; // right eye
+    s += '<circle cx="'+(x-10)+'" cy="'+(y-42)+'" r="2.5" fill="#333"/>';
+    s += '<circle cx="'+(x+10)+'" cy="'+(y-42)+'" r="2.5" fill="#333"/>';
+    s += '<rect x="'+(x-20)+'" y="'+(y-12)+'" width="40" height="25" rx="8" fill="'+color+'"/>'; // body
+    s += '<text x="'+x+'" y="'+(y+5)+'" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold" font-family="Arial">MZ</text>';
+  }else if(type === 'king'){
+    // King with crown
+    s += '<circle cx="'+x+'" cy="'+(y-40)+'" r="22" fill="'+color+'"/>';
+    s += '<polygon points="'+(x-12)+','+(y-58)+' '+(x-6)+','+(y-68)+' '+(x)+','+(y-58)+' '+(x+6)+','+(y-68)+' '+(x+12)+','+(y-58)+'" fill="#F1C40F"/>'; // crown
+    s += '<circle cx="'+(x-8)+'" cy="'+(y-42)+'" r="3" fill="#333"/>';
+    s += '<circle cx="'+(x+8)+'" cy="'+(y-42)+'" r="3" fill="#333"/>';
+    s += '<rect x="'+(x-16)+'" y="'+(y-15)+'" width="32" height="22" rx="6" fill="'+color+'"/>';
+  }else if(type === 'queen'){
+    // Queen
+    s += '<circle cx="'+x+'" cy="'+(y-40)+'" r="20" fill="'+color+'"/>';
+    s += '<polygon points="'+(x-10)+','+(y-56)+' '+(x)+','+(y-64)+' '+(x+10)+','+(y-56)+'" fill="#E74C3C"/>'; // tiara
+    s += '<circle cx="'+x+'" cy="'+(y-60)+'" r="3" fill="#F1C40F"/>';
+    s += '<circle cx="'+(x-7)+'" cy="'+(y-42)+'" r="3" fill="#333"/>';
+    s += '<circle cx="'+(x+7)+'" cy="'+(y-42)+'" r="3" fill="#333"/>';
+    s += '<path d="M '+(x-14)+' '+(y-25)+' Q '+x+' '+(y-18)+' '+(x+14)+' '+(y-25)+'" stroke="'+color+'" stroke-width="3" fill="none"/>'; // hair
+    s += '<rect x="'+(x-14)+'" y="'+(y-15)+'" width="28" height="20" rx="6" fill="'+color+'"/>';
+  }else if(type === 'bob'){
+    // Gardener boy
+    s += '<circle cx="'+x+'" cy="'+(y-38)+'" r="18" fill="'+color+'"/>';
+    s += '<path d="M '+(x-18)+' '+(y-38)+' Q '+x+' '+(y-60)+' '+(x+18)+' '+(y-38)+'" fill="#5A8A5A"/>'; // hat
+    s += '<circle cx="'+(x-6)+'" cy="'+(y-40)+'" r="2.5" fill="#333"/>';
+    s += '<circle cx="'+(x+6)+'" cy="'+(y-40)+'" r="2.5" fill="#333"/>';
+    s += '<rect x="'+(x-12)+'" y="'+(y-18)+'" width="24" height="20" rx="5" fill="'+color+'"/>';
+  }else if(type === 'sylvia'){
+    // Princess
+    s += '<circle cx="'+x+'" cy="'+(y-38)+'" r="18" fill="'+color+'"/>';
+    s += '<path d="M '+(x-15)+' '+(y-35)+' Q '+x+' '+(y-55)+' '+(x+15)+' '+(y-35)+'" fill="#D4A0A0"/>'; // hair
+    s += '<circle cx="'+x+'" cy="'+(y-50)+'" r="3" fill="#F1C40F"/>'; // tiara jewel
+    s += '<circle cx="'+(x-6)+'" cy="'+(y-40)+'" r="2.5" fill="#333"/>';
+    s += '<circle cx="'+(x+6)+'" cy="'+(y-40)+'" r="2.5" fill="#333"/>';
+    s += '<rect x="'+(x-12)+'" y="'+(y-18)+'" width="24" height="20" rx="5" fill="'+color+'"/>';
+  }else if(type === 'corvax'){
+    // Minister (tall, thin)
+    s += '<circle cx="'+x+'" cy="'+(y-42)+'" r="16" fill="'+color+'"/>';
+    s += '<polygon points="'+(x-10)+','+(y-52)+' '+(x)+','+(y-62)+' '+(x+10)+','+(y-52)+'" fill="#2C3E50"/>'; // hat
+    s += '<circle cx="'+(x-5)+'" cy="'+(y-44)+'" r="2.5" fill="#E74C3C"/>'; // red eyes
+    s += '<circle cx="'+(x+5)+'" cy="'+(y-44)+'" r="2.5" fill="#E74C3C"/>';
+    s += '<rect x="'+(x-8)+'" y="'+(y-20)+'" width="16" height="28" rx="3" fill="'+color+'"/>';
+  }else if(type === 'norman'){
+    // Norman (small man)
+    s += '<circle cx="'+x+'" cy="'+(y-30)+'" r="15" fill="'+color+'"/>';
+    s += '<circle cx="'+(x-5)+'" cy="'+(y-32)+'" r="2.5" fill="#333"/>';
+    s += '<circle cx="'+(x+5)+'" cy="'+(y-32)+'" r="2.5" fill="#333"/>';
+    s += '<path d="M '+(x-6)+' '+(y-25)+' Q '+x+' '+(y-20)+' '+(x+6)+' '+(y-25)+'" stroke="#333" stroke-width="1.5" fill="none"/>'; // smile
+    s += '<rect x="'+(x-10)+'" y="'+(y-16)+'" width="20" height="18" rx="4" fill="'+color+'"/>';
+  }else if(type === 'cat'){
+    // Cat
+    s += '<circle cx="'+x+'" cy="'+(y-30)+'" r="14" fill="'+color+'"/>';
+    s += '<polygon points="'+(x-10)+','+(y-42)+' '+(x-6)+','+(y-52)+' '+(x-2)+','+(y-42)+'" fill="'+color+'"/>'; // left ear
+    s += '<polygon points="'+(x+2)+','+(y-42)+' '+(x+6)+','+(y-52)+' '+(x+10)+','+(y-42)+'" fill="'+color+'"/>'; // right ear
+    s += '<circle cx="'+(x-5)+'" cy="'+(y-32)+'" r="2" fill="#F1C40F"/>';
+    s += '<circle cx="'+(x+5)+'" cy="'+(y-32)+'" r="2" fill="#F1C40F"/>';
+    s += '<rect x="'+(x-8)+'" y="'+(y-18)+'" width="16" height="15" rx="3" fill="'+color+'"/>';
+  }
+  return s;
 }
 
 /* ============ DRAWER ============ */
@@ -1410,6 +1692,8 @@ window.addPlayed5 = addPlayed5;
 window.addPlayed10 = addPlayed10;
 window.resetPlayed = resetPlayed;
 window.speakLine = speakLine;
+window.playLine = playLine;
+window.startRead = startRead;
 
 init();
 
