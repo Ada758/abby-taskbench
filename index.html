@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Abby学习工作台">
+<meta name="theme-color" content="#CFD9C9">
+<title>Abby 学习工作台</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='24' fill='%23E8732C'/><text x='50%' y='54%' dominant-baseline='central' text-anchor='middle' font-size='40' font-weight='bold' fill='white' font-family='Arial'>Abby</text></svg>">
+<link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Abby%20%E5%AD%A6%E4%B9%A0%E5%B7%A5%E4%BD%9C%E5%8F%B0%22%2C%22short_name%22%3A%22Abby%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23DCE5D8%22%2C%22theme_color%22%3A%22%23CFD9C9%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2F2000%2Fsvg'%20viewBox%3D'0%200%20120%20120'%3E%3Crect%20width%3D'120'%20height%3D'120'%20rx%3D'24'%20fill%3D'%2523E8732C'%2F%3E%3Ctext%20x%3D'50%25'%20y%3D'54%25'%20dominant-baseline%3D'central'%20text-anchor%3D'middle'%20font-size%3D'40'%20font-weight%3D'bold'%20fill%3D'white'%20font-family%3D'Arial'%3EAbby%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+<style>
+:root{
+  --bg:#DCE5D8;--bg-soft:#E8EEE4;--panel:#CFD9C9;--card:#F0F4ED;--card-2:#E0E6DB;
+  --ink:#3D4A38;--ink-soft:#7A8570;--line:#C5D0BC;
+  --orange:#E8732C;--orange-deep:#C75A14;--orange-soft:#F5C4A0;--orange-bg:#FCE5D4;
+  --ok:#6B9080;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--ink);
+}
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* Top Bar */
+.topbar{
+  background:var(--panel);padding:8px 12px;display:flex;align-items:center;gap:8px;
+  position:sticky;top:0;z-index:100;min-height:48px;
+}
+.topbar .hamburger{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;color:var(--ink);font-size:22px}
+.topbar .title{font-size:16px;font-weight:700;flex:1;color:var(--ink)}
+.topbar .date{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.topbar .add-btn{width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;border:none;cursor:pointer;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* Chips */
+.chips-wrap{
+  background:var(--bg-soft);padding:8px 12px;
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.chips-wrap::-webkit-scrollbar{display:none}
+.chip{
+  display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;
+  background:var(--card-2);border:2px solid transparent;cursor:pointer;
+  white-space:nowrap;font-size:14px;font-weight:600;color:var(--ink);
+  transition:all .2s;
+}
+.chip.active{background:var(--orange-bg);border-color:var(--orange);color:var(--orange-deep)}
+.chip svg{width:22px;height:22px}
+.chip-icon-chinese,.chip-icon-math,.chip-icon-english,.chip-icon-game{display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:4px;font-weight:700;font-size:11px;color:#fff}
+.chip-icon-chinese{background:#6B9080}
+.chip-icon-math{background:#5B7FB0}
+.chip-icon-english{background:#B06B8F}
+.chip-icon-game{background:var(--orange)}
+
+/* Main Area */
+.main{flex:1;overflow-y:auto;padding:12px;background:var(--bg);-webkit-overflow-scrolling:touch}
+
+/* Ancient Quote Card */
+.quote-card{
+  background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px;
+  border:1px solid var(--line);position:relative;overflow:hidden;
+}
+.quote-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--orange);border-radius:4px 0 0 4px}
+.quote-card .q-title{font-size:13px;color:var(--orange-deep);font-weight:700;margin-bottom:6px}
+.quote-card .q-text{font-size:15px;font-weight:600;line-height:1.6;margin-bottom:6px}
+.quote-card .q-source{font-size:12px;color:var(--ink-soft)}
+.quote-card .q-note{font-size:12px;color:var(--ink-soft);margin-top:4px}
+
+/* Goal Card */
+.goal-card{
+  background:var(--orange-bg);border-radius:12px;padding:12px 14px;margin-bottom:12px;
+  border:1px solid var(--orange-soft);font-size:14px;color:var(--orange-deep);
+}
+.goal-card .goal-label{font-weight:700;font-size:13px;color:var(--orange)}
+
+/* Task List */
+.task-item{
+  background:var(--card);border-radius:10px;margin-bottom:8px;
+  border:1px solid var(--line);overflow:hidden;
+  transition:all .2s;
+}
+.task-item.completed{opacity:.6;background:var(--bg-soft)}
+.task-header{
+  display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;
+}
+.task-header .check{
+  width:24px;height:24px;border-radius:50%;border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all .2s;font-size:14px;
+}
+.task-header .check.checked{background:var(--ok);border-color:var(--ok);color:#fff}
+.task-header .task-title{font-size:14px;font-weight:600;flex:1}
+.task-header .task-title.done{text-decoration:line-through;color:var(--ink-soft)}
+.task-header .expand-icon{font-size:12px;color:var(--ink-soft);transition:transform .2s}
+.task-header .expand-icon.open{transform:rotate(180deg)}
+.task-detail{padding:0 14px 14px;display:none}
+.task-detail.show{display:block}
+.task-video{margin-bottom:10px}
+.task-video a{
+  display:inline-flex;align-items:center;gap:4px;padding:6px 12px;
+  background:var(--orange-bg);border-radius:8px;color:var(--orange-deep);
+  font-size:13px;font-weight:600;text-decoration:none;
+}
+.task-video a:hover{background:var(--orange-soft)}
+.task-desc{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
+
+/* English dual layout */
+.english-dual{display:flex;gap:10px;flex-wrap:wrap}
+.english-dual .video-col{flex:1;min-width:200px}
+.english-dual .video-col iframe{width:100%;height:260px;border-radius:8px;border:1px solid var(--line)}
+.english-dual .read-col{flex:1;min-width:200px;background:var(--card-2);border-radius:8px;padding:10px}
+.english-dual .read-col .line-item{
+  padding:6px 10px;margin-bottom:4px;border-radius:6px;cursor:pointer;
+  font-size:13px;background:var(--card);border:1px solid var(--line);
+  transition:all .15s;
+}
+.english-dual .read-col .line-item:hover{background:var(--orange-bg);border-color:var(--orange-soft)}
+.english-dual .read-col .line-label{font-weight:700;color:var(--orange-deep);font-size:11px;margin-bottom:2px}
+.english-dual .read-col .words{font-size:12px;color:var(--ink-soft);margin-top:8px;padding:6px 10px;background:var(--orange-bg);border-radius:6px}
+
+/* English quiz */
+.en-quiz{margin-top:10px}
+.en-quiz .q-item{padding:8px;margin-bottom:6px;background:var(--card);border-radius:8px;border:1px solid var(--line)}
+.en-quiz .q-item .q-text{font-size:13px;font-weight:600;margin-bottom:6px}
+.en-quiz .q-item .q-opts{display:flex;flex-direction:column;gap:4px}
+.en-quiz .q-item .q-opt{
+  padding:6px 10px;border-radius:6px;font-size:13px;cursor:pointer;
+  background:var(--bg-soft);border:1px solid var(--line);transition:all .15s;
+}
+.en-quiz .q-item .q-opt:hover{background:var(--orange-bg)}
+.en-quiz .q-item .q-opt.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+.en-quiz .q-item .q-opt.wrong{background:var(--orange-soft);border-color:var(--orange)}
+
+/* Math quiz */
+.math-quiz{margin-top:10px}
+.math-quiz .mq-item{padding:8px;margin-bottom:6px;background:var(--card);border-radius:8px;border:1px solid var(--line)}
+.math-quiz .mq-item .mq-text{font-size:14px;font-weight:600;margin-bottom:6px}
+.math-quiz .mq-item .mq-opts{display:flex;flex-wrap:wrap;gap:6px}
+.math-quiz .mq-item .mq-opt{
+  padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer;
+  background:var(--bg-soft);border:1px solid var(--line);transition:all .15s;
+  min-width:60px;text-align:center;
+}
+.math-quiz .mq-item .mq-opt:hover{background:var(--orange-bg)}
+.math-quiz .mq-item .mq-opt.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+.math-quiz .mq-item .mq-opt.wrong{background:var(--orange-soft);border-color:var(--orange)}
+.math-quiz .mq-score{font-size:14px;font-weight:700;color:var(--orange-deep);margin-top:8px;text-align:center}
+
+/* Point display */
+.point-display{
+  background:var(--orange-bg);border-radius:10px;padding:14px;margin-bottom:10px;
+  text-align:center;
+}
+.point-display .pt-val{font-size:28px;font-weight:700;color:var(--orange-deep)}
+.point-display .pt-label{font-size:13px;color:var(--ink-soft)}
+.point-display .pt-row{display:flex;justify-content:center;gap:16px;margin-top:8px}
+.point-display .pt-item{text-align:center}
+.point-display .pt-item span{font-size:18px;font-weight:700;color:var(--orange)}
+.point-display .pt-item small{font-size:11px;color:var(--ink-soft)}
+
+/* Drawer */
+.drawer-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);
+  z-index:200;opacity:0;visibility:hidden;transition:all .3s;
+}
+.drawer-overlay.open{opacity:1;visibility:visible}
+.drawer{
+  position:fixed;top:0;left:-280px;width:280px;height:100%;background:var(--panel);
+  z-index:201;transition:left .3s;overflow-y:auto;padding:16px;
+}
+.drawer.open{left:0}
+.drawer .d-header{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.drawer .d-close{width:28px;height:28px;border:none;background:none;cursor:pointer;font-size:20px;color:var(--ink)}
+.drawer .d-section{margin-bottom:16px}
+.drawer .d-section-title{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.drawer .d-task{display:flex;align-items:center;gap:8px;padding:8px 6px;border-radius:8px;cursor:pointer;font-size:14px;transition:all .15s}
+.drawer .d-task:hover{background:var(--card)}
+.drawer .d-task .d-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;color:#fff}
+.drawer .d-task .d-name{flex:1}
+.drawer .d-task .d-count{font-size:12px;color:var(--ink-soft)}
+
+/* Add modal */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);z-index:300;opacity:0;visibility:hidden;transition:all .3s;display:flex;align-items:center;justify-content:center}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal{background:var(--card);border-radius:16px;padding:20px;width:90%;max-width:360px;max-height:80vh;overflow-y:auto}
+.modal .m-title{font-size:18px;font-weight:700;margin-bottom:12px}
+.modal .m-group{margin-bottom:12px}
+.modal .m-label{font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:4px}
+.modal .m-input{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg-soft);font-size:14px;color:var(--ink)}
+.modal .m-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.modal .m-btn{padding:8px 16px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;border:none}
+.modal .m-btn.primary{background:var(--orange);color:#fff}
+.modal .m-btn.secondary{background:var(--card-2);color:var(--ink)}
+
+/* Scrollbar */
+.main::-webkit-scrollbar{width:4px}
+.main::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+
+/* Responsive */
+@media(min-width:768px){
+  .english-dual{flex-wrap:nowrap}
+  .chip{padding:10px 18px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Top Bar -->
+  <div class="topbar">
+    <button class="hamburger" onclick="toggleDrawer()" aria-label="菜单">☰</button>
+    <span class="title">Abby 学习工作台</span>
+    <span class="date" id="dateDisplay"></span>
+    <button class="add-btn" onclick="openAddModal()" aria-label="新增">+</button>
+  </div>
+
+  <!-- Chips -->
+  <div class="chips-wrap" id="chipsWrap"></div>
+
+  <!-- Main -->
+  <div class="main" id="mainArea"></div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="d-header">任务列表 <button class="d-close" onclick="toggleDrawer()">✕</button></div>
+  <div id="drawerContent"></div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="m-title">新增自定义任务</div>
+    <div class="m-group">
+      <div class="m-label">所属类别</div>
+      <select class="m-input" id="addCategory">
+        <option value="chinese">语文</option>
+        <option value="math">数学</option>
+        <option value="english">英语</option>
+        <option value="game">游戏</option>
+      </select>
+    </div>
+    <div class="m-group">
+      <div class="m-label">任务名称</div>
+      <input class="m-input" id="addName" placeholder="输入任务名称">
+    </div>
+    <div class="m-group">
+      <div class="m-label">视频链接（可选）</div>
+      <input class="m-input" id="addVideo" placeholder="https://...">
+    </div>
+    <div class="m-group">
+      <div class="m-label">描述（可选）</div>
+      <textarea class="m-input" id="addDesc" rows="3" placeholder="任务描述"></textarea>
+    </div>
+    <div class="m-btns">
+      <button class="m-btn secondary" onclick="closeAddModal()">取消</button>
+      <button class="m-btn primary" onclick="saveCustomTask()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ============ CONSTANTS ============ */
+var STORE_KEY = 'abby-taskbench-v1';
+var SW_VERSION = 'abby-taskbench-v1';
+
+/* ============ TASK DATA ============ */
+var TASKS = {
+  chinese: {
+    name: '语文',
+    icon: 'chinese',
+    goal: '二年级人教版语文上册预习与巩固',
+    children: [
+      {id:'c1',title:'课文朗读 - 小蝌蚪找妈妈',video:'https://www.bilibili.com/video/BV1QsgXzGEx3',desc:'朗读课文《小蝌蚪找妈妈》，注意语气和节奏，感受小蝌蚪寻找妈妈的急切心情。'},
+      {id:'c2',title:'课文朗读 - 我是什么',video:'',desc:'朗读课文《我是什么》，体会水的变化过程，用不同的语气读出水的各种形态。'},
+      {id:'c3',title:'课文朗读 - 植物妈妈有办法',video:'',desc:'朗读课文《植物妈妈有办法》，感受植物传播种子的奇妙方法，读出趣味和好奇。'},
+      {id:'c4',title:'生字笔顺练习 - 第一单元生字',video:'',desc:'参考笔顺练习：https://www.sohu.com/a/812008664_121124337\n练习第一单元所有生字的正确笔顺，每字写3遍。'},
+      {id:'c5',title:'生字笔顺练习 - 第二单元生字',video:'',desc:'练习第二单元所有生字的正确笔顺，注意先横后竖、先撇后捺的规则。'},
+      {id:'c6',title:'练习册 - 第一单元测试',video:'',desc:'完成第一单元测试卷，包括看拼音写词语、选词填空、阅读理解等题型。'},
+      {id:'c7',title:'练习册 - 第二单元测试',video:'',desc:'完成第二单元测试卷，巩固本单元所学的字词和课文内容。'},
+      {id:'c8',title:'课外读物 - 《小蝌蚪找妈妈》绘本延伸阅读',video:'',desc:'阅读绘本版《小蝌蚪找妈妈》，了解更多青蛙成长的知识，画出小蝌蚪变青蛙的过程图。'},
+      {id:'c9',title:'课外读物 - 《植物妈妈有办法》自然科普绘本',video:'',desc:'阅读自然科普绘本，了解更多植物传播种子的方法：风力传播、动物传播、水力传播等。'},
+      {id:'c10',title:'课外读物 - 成语故事精选（与课文相关）',video:'',desc:'阅读成语故事：井底之蛙、守株待兔、拔苗助长等，每个成语写一句话造句练习。'}
+    ]
+  },
+  math: {
+    name: '数学',
+    icon: 'math',
+    goal: '二年级人教版数学上册，每个知识点配动画片+图解+10道练习题',
+    children: [
+      {id:'m1',title:'长度单位（厘米和米）',video:'https://v.qq.com/x/cover/mzc00200ul8jnqy.html',
+        desc:'图解：1厘米≈大拇指的宽度，1米≈一步的长度\n100厘米 = 1米',
+        quiz:[
+          {q:'1厘米大约有多长？',opts:['一根手指宽','一臂长','一步长','一根头发宽'],ans:0},
+          {q:'1米等于多少厘米？',opts:['10厘米','50厘米','100厘米','1000厘米'],ans:2},
+          {q:'测量课桌的长度用什么单位？',opts:['米','厘米','千米','毫米'],ans:1},
+          {q:'小明身高120___?',opts:['厘米','米','千米','分米'],ans:0},
+          {q:'操场跑道长200___?',opts:['厘米','米','千米','分米'],ans:1},
+          {q:'一支铅笔大约长15___?',opts:['米','厘米','千米','毫米'],ans:1},
+          {q:'3米=___厘米?',opts:['30','300','3000','100'],ans:1},
+          {q:'500厘米=___米?',opts:['5','50','500','0.5'],ans:0},
+          {q:'比较大小：2米___150厘米',opts:['大于','小于','等于','无法比较'],ans:0},
+          {q:'门的高度大约是2___?',opts:['厘米','米','千米','毫米'],ans:1}
+        ]
+      },
+      {id:'m2',title:'100以内的加法',video:'',
+        desc:'图解：竖式加法步骤\n1.相同数位对齐\n2.从个位加起\n3.个位满十向十位进1',
+        quiz:[
+          {q:'23 + 45 = ?',opts:['58','68','78','56'],ans:1},
+          {q:'37 + 29 = ?',opts:['56','66','76','56'],ans:1},
+          {q:'18 + 52 = ?',opts:['60','70','80','62'],ans:0},
+          {q:'46 + 38 = ?',opts:['74','84','94','72'],ans:1},
+          {q:'15 + 67 = ?',opts:['72','82','92','62'],ans:0},
+          {q:'39 + 41 = ?',opts:['70','80','90','60'],ans:1},
+          {q:'27 + 56 = ?',opts:['73','83','93','63'],ans:1},
+          {q:'34 + 48 = ?',opts:['72','82','92','62'],ans:1},
+          {q:'55 + 25 = ?',opts:['70','80','90','60'],ans:1},
+          {q:'61 + 19 = ?',opts:['70','80','90','60'],ans:1}
+        ]
+      },
+      {id:'m3',title:'100以内的减法',video:'',
+        desc:'图解：借位减法\n1.相同数位对齐\n2.从个位减起\n3.个位不够减，向十位借1当10',
+        quiz:[
+          {q:'56 - 23 = ?',opts:['33','43','23','53'],ans:0},
+          {q:'72 - 38 = ?',opts:['24','34','44','14'],ans:1},
+          {q:'45 - 17 = ?',opts:['28','38','18','32'],ans:0},
+          {q:'80 - 36 = ?',opts:['34','44','54','24'],ans:1},
+          {q:'63 - 29 = ?',opts:['24','34','44','14'],ans:1},
+          {q:'91 - 45 = ?',opts:['36','46','56','26'],ans:0},
+          {q:'54 - 18 = ?',opts:['26','36','46','16'],ans:1},
+          {q:'75 - 48 = ?',opts:['17','27','37','7'],ans:1},
+          {q:'38 - 15 = ?',opts:['13','23','33','3'],ans:1},
+          {q:'67 - 39 = ?',opts:['18','28','38','8'],ans:1}
+        ]
+      },
+      {id:'m4',title:'表内乘法（2-5的乘法口诀）',video:'',
+        desc:'图解：乘法就是连加\n2×3 = 2+2+2 = 6\n3×4 = 3+3+3+3 = 12',
+        quiz:[
+          {q:'2×3 = ?',opts:['5','6','8','4'],ans:1},
+          {q:'3×4 = ?',opts:['7','10','12','14'],ans:2},
+          {q:'4×5 = ?',opts:['9','15','20','25'],ans:2},
+          {q:'2×7 = ?',opts:['9','12','14','16'],ans:2},
+          {q:'3×6 = ?',opts:['9','15','18','21'],ans:2},
+          {q:'5×3 = ?',opts:['8','10','15','20'],ans:2},
+          {q:'4×4 = ?',opts:['8','12','16','20'],ans:2},
+          {q:'2×9 = ?',opts:['11','16','18','20'],ans:2},
+          {q:'3×8 = ?',opts:['11','18','24','27'],ans:2},
+          {q:'5×6 = ?',opts:['11','25','30','35'],ans:2}
+        ]
+      },
+      {id:'m5',title:'表内乘法（6-9的乘法口诀）',video:'',
+        desc:'6的口诀：六六三十六、六七四十二...\n9的口诀：九九八十一',
+        quiz:[
+          {q:'6×7 = ?',opts:['36','42','48','54'],ans:1},
+          {q:'7×8 = ?',opts:['49','54','56','63'],ans:2},
+          {q:'8×9 = ?',opts:['64','72','81','56'],ans:1},
+          {q:'6×6 = ?',opts:['30','36','42','48'],ans:1},
+          {q:'7×7 = ?',opts:['42','49','56','63'],ans:1},
+          {q:'8×8 = ?',opts:['56','64','72','48'],ans:1},
+          {q:'9×9 = ?',opts:['72','81','90','63'],ans:1},
+          {q:'6×9 = ?',opts:['45','54','63','48'],ans:1},
+          {q:'7×9 = ?',opts:['56','63','72','49'],ans:1},
+          {q:'8×6 = ?',opts:['42','48','54','56'],ans:1}
+        ]
+      },
+      {id:'m6',title:'观察物体',video:'',
+        desc:'图解：从不同方向看同一个物体\n前面看→正面形状\n侧面看→侧面形状\n上面看→俯视形状',
+        quiz:[
+          {q:'从正面看一个正方体，看到什么形状？',opts:['正方形','长方形','三角形','圆形'],ans:0},
+          {q:'从上面看一个圆柱体，看到什么形状？',opts:['正方形','圆形','三角形','长方形'],ans:1},
+          {q:'一个长方体从侧面看可能是什么形状？',opts:['只能是正方形','只能是长方形','可能是正方形或长方形','圆形'],ans:2},
+          {q:'从正面看一个球，看到什么形状？',opts:['正方形','圆形','三角形','半圆'],ans:1},
+          {q:'3个小正方体排成一排，从正面看有几个正方形？',opts:['1个','2个','3个','4个'],ans:2},
+          {q:'从侧面看3个小正方体排成一排，看到什么？',opts:['3个正方形','1个正方形','2个正方形','长方形'],ans:1},
+          {q:'一个圆柱从正面看是什么形状？',opts:['圆形','长方形','正方形','三角形'],ans:1},
+          {q:'站在物体左边看，看到的是哪个面？',opts:['正面','右侧面','左侧面','背面'],ans:2},
+          {q:'2个正方体上下叠放，从正面看有几个正方形？',opts:['1个','2个','3个','4个'],ans:1},
+          {q:'一个正方体，最多能同时看到几个面？',opts:['1个','2个','3个','4个'],ans:2}
+        ]
+      },
+      {id:'m7',title:'认识时间',video:'',
+        desc:'图解：时针和分针的关系\n时针→短针，走一大格=1小时\n分针→长针，走一大格=5分钟\n1小时=60分钟',
+        quiz:[
+          {q:'时针走一大格是多长时间？',opts:['1分钟','5分钟','1小时','12小时'],ans:2},
+          {q:'分针走一大格是多长时间？',opts:['1分钟','5分钟','10分钟','1小时'],ans:1},
+          {q:'分针走一圈是多长时间？',opts:['5分钟','30分钟','60分钟','12小时'],ans:2},
+          {q:'1小时等于多少分钟？',opts:['10分钟','30分钟','60分钟','100分钟'],ans:2},
+          {q:'钟面上有几个大格？',opts:['6个','10个','12个','60个'],ans:2},
+          {q:'钟面上有多少个小格？',opts:['12个','30个','60个','100个'],ans:2},
+          {q:'8:30时，时针指向哪里？',opts:['正好指向8','在8和9之间','指向9','指向6'],ans:1},
+          {q:'分针指向6，是多少分钟？',opts:['6分钟','10分钟','30分钟','60分钟'],ans:2},
+          {q:'3时15分，分针指向哪个数字？',opts:['1','3','15','6'],ans:0},
+          {q:'从2:00到2:30经过了多少时间？',opts:['10分钟','20分钟','30分钟','60分钟'],ans:2}
+        ]
+      }
+    ]
+  },
+  english: {
+    name: '英语',
+    icon: 'english',
+    goal: '以 Big Muzzy 动画片系统学习英语，12集循序渐进',
+    children: [
+      {id:'e1',title:'第1集：I am... / I\'m...（自我介绍）',
+        video:'BV1LN9eBxEao',page:1,
+        desc:'Big Muzzy 第1集\n主题：自我介绍 "I am.../I\'m..."',
+        words:'I, am, you, are, he, she, is, Muzzy, Bob, king',
+        lines:['I\'m Muzzy.','What\'s your name?','I\'m Bob.','I am the King.','She is Sylvia.','He is Bob.','Are you Muzzy?','Yes, I am.'],
+        quiz:[
+          {q:'"I\'m Muzzy" 中 I\'m 是什么意思？',opts:['我是','你是','他是','她是'],ans:0},
+          {q:'"What\'s your name?" 是在问什么？',opts:['你叫什么名字','你几岁了','你在哪里','你喜欢什么'],ans:0},
+          {q:'"She is Sylvia" 中 She 指的是谁？',opts:['男孩','女孩/女人','动物','国王'],ans:1},
+          {q:'"Are you Muzzy?" 是什么类型的句子？',opts:['陈述句','疑问句','命令句','感叹句'],ans:1},
+          {q:'回答 "Yes, I am." 是在回答什么？',opts:['名字','身份确认','年龄','喜好'],ans:1}
+        ]
+      },
+      {id:'e2',title:'第2集：This is...（介绍他人）',
+        video:'BV1LN9eBxEao',page:2,
+        desc:'Big Muzzy 第2集\n主题：介绍他人 "This is..."',
+        words:'this, that, is, my, your, friend, name, hello',
+        lines:['This is my friend.','This is Bob.','That is the castle.','My name is Muzzy.','Your name is Bob.','Hello!','This is Sylvia.'],
+        quiz:[
+          {q:'"This is my friend." 中的 this 指什么？',opts:['远处的人','近处的人','自己','动物'],ans:1},
+          {q:'"That is the castle." 中的 that 指什么？',opts:['近处的城堡','远处的城堡','自己','朋友'],ans:1},
+          {q:'"My name is..." 中 My 是什么意思？',opts:['你的','我的','他的','她的'],ans:1},
+          {q:'"Your name is Bob" 中 Your 是什么意思？',opts:['我的','你的','我们的','他们的'],ans:1},
+          {q:'"This is..." 用来做什么？',opts:['问问题','介绍人或物','告别','买东西'],ans:1}
+        ]
+      },
+      {id:'e3',title:'第3集：Can I have...?（请求）',
+        video:'BV1LN9eBxEao',page:3,
+        desc:'Big Muzzy 第3集\n主题：请求 "Can I have...?"',
+        words:'can, have, please, want, give, eat, drink, hungry',
+        lines:['Can I have some food?','Please give me a drink.','I want to eat.','Can I have this?','I\'m hungry.','Can you help me?'],
+        quiz:[
+          {q:'"Can I have some food?" 是在做什么？',opts:['自我介绍','请求食物','介绍朋友','告别'],ans:1},
+          {q:'"Please" 是什么意思？',opts:['谢谢','请','对不起','你好'],ans:1},
+          {q:'"I\'m hungry" 是什么意思？',opts:['我累了','我饿了','我渴了','我开心'],ans:1},
+          {q:'"Can you help me?" 是什么意思？',opts:['你能帮我吗？','你能介绍我吗？','你能吃饭吗？','你能走吗？'],ans:0},
+          {q:'请求时加上什么词更礼貌？',opts:['Hello','Please','Yes','No'],ans:1}
+        ]
+      },
+      {id:'e4',title:'第4集：Where is...?（方位）',
+        video:'BV1LN9eBxEao',page:4,
+        desc:'Big Muzzy 第4集\n主题：方位 "Where is...?"',
+        words:'where, in, on, under, here, there, behind, next to',
+        lines:['Where is Bob?','He is in the castle.','She is under the tree.','The book is on the table.','It is behind the door.','Where are you?'],
+        quiz:[
+          {q:'"Where is Bob?" 是在问什么？',opts:['Bob是谁','Bob在哪里','Bob几岁','Bob在做什么'],ans:1},
+          {q:'"in" 表示什么位置？',opts:['上面','下面','里面','旁边'],ans:2},
+          {q:'"under the tree" 是什么意思？',opts:['在树上','在树下','在树旁','在树后'],ans:1},
+          {q:'"on the table" 是什么意思？',opts:['在桌子里','在桌子下面','在桌子上','在桌子旁'],ans:2},
+          {q:'"behind" 表示什么位置？',opts:['前面','后面','上面','里面'],ans:1}
+        ]
+      },
+      {id:'e5',title:'第5集：颜色和数字',
+        video:'BV1LN9eBxEao',page:5,
+        desc:'Big Muzzy 第5集\n主题：颜色和数字',
+        words:'red, blue, green, yellow, one, two, three, four, five, six, seven, eight, nine, ten',
+        lines:['I like red.','The apple is red.','How many? One, two, three.','What color is this?','It is blue.','Green is my favorite color.'],
+        quiz:[
+          {q:'"red" 是什么颜色？',opts:['蓝色','红色','绿色','黄色'],ans:1},
+          {q:'"blue" 是什么颜色？',opts:['红色','蓝色','绿色','黄色'],ans:1},
+          {q:'"How many?" 是在问什么？',opts:['什么颜色','多少个','在哪里','是谁'],ans:1},
+          {q:'数字 5 用英语怎么说？',opts:['three','four','five','six'],ans:2},
+          {q:'"What color is this?" 是在问什么？',opts:['数量','位置','颜色','名字'],ans:2}
+        ]
+      },
+      {id:'e6',title:'第6集：I like... / I don\'t like...（喜好）',
+        video:'BV1LN9eBxEao',page:6,
+        desc:'Big Muzzy 第6集\n主题：喜好 "I like.../I don\'t like..."',
+        words:'like, eat, apple, cake, banana, don\'t, love, hate',
+        lines:['I like apples.','I don\'t like cake.','Do you like bananas?','Yes, I do.','No, I don\'t.','I love ice cream.'],
+        quiz:[
+          {q:'"I like apples" 是什么意思？',opts:['我讨厌苹果','我喜欢苹果','我想要苹果','我在吃苹果'],ans:1},
+          {q:'"I don\'t like cake" 是什么意思？',opts:['我喜欢蛋糕','我不喜欢蛋糕','我在吃蛋糕','我想要蛋糕'],ans:1},
+          {q:'"Do you like bananas?" 是什么类型的句子？',opts:['陈述句','疑问句','命令句','感叹句'],ans:1},
+          {q:'回答 "Yes, I do." 表示什么？',opts:['不喜欢','喜欢','不确定','讨厌'],ans:1},
+          {q:'"love" 比 "like" 的感情程度怎样？',opts:['更弱','一样','更强','相反'],ans:2}
+        ]
+      },
+      {id:'e7',title:'第7集：What\'s this?（这是什么）',
+        video:'BV1LN9eBxEao',page:7,
+        desc:'Big Muzzy 第7集\n主题：事物 "What\'s this?"',
+        words:'what, this, it, thing, clock, computer, garden, forest',
+        lines:['What\'s this?','It\'s a clock.','What\'s that?','It\'s a computer.','This is a garden.','That is a forest.','Is this a book?'],
+        quiz:[
+          {q:'"What\'s this?" 是在问什么？',opts:['这是谁','这是什么','这是哪里','这是什么颜色'],ans:1},
+          {q:'"It\'s a clock" 是什么意思？',opts:['这是一个钟','这是一本书','这是一棵树','这是一个花园'],ans:0},
+          {q:'"Is this a book?" 是什么类型的句子？',opts:['陈述句','疑问句','命令句','感叹句'],ans:1},
+          {q:'"forest" 是什么意思？',opts:['花园','森林','城堡','河流'],ans:1},
+          {q:'回答 "What\'s this?" 要用什么句式？',opts:['I am...','It\'s a...','She is...','He is...'],ans:1}
+        ]
+      },
+      {id:'e8',title:'第8集：How many?（数量）',
+        video:'BV1LN9eBxEao',page:8,
+        desc:'Big Muzzy 第8集\n主题：数量 "How many?"',
+        words:'how, many, one through twenty, count, number, enough, more',
+        lines:['How many apples?','One, two, three, four, five.','How many are there?','There are ten.','Count with me.','Not enough.'],
+        quiz:[
+          {q:'"How many?" 是在问什么？',opts:['什么颜色','多少个','在哪里','是谁'],ans:1},
+          {q:'数字 10 用英语怎么说？',opts:['eight','nine','ten','eleven'],ans:2},
+          {q:'"Count with me" 是什么意思？',opts:['跟我一起数','跟我一起唱','跟我一起跑','跟我一起画'],ans:0},
+          {q:'"Not enough" 是什么意思？',opts:['足够了','不够','太多了','正好'],ans:1},
+          {q:'"There are ten" 是什么意思？',opts:['有10个','有1个','有100个','有0个'],ans:0}
+        ]
+      },
+      {id:'e9',title:'第9集：There is/are...（存在句）',
+        video:'BV1LN9eBxEao',page:9,
+        desc:'Big Muzzy 第9集\n主题：存在 "There is/are..."',
+        words:'there, some, any, is, are, one, many, lot, plenty',
+        lines:['There is a tree.','There are some flowers.','Is there any water?','There are a lot of apples.','There is one king.'],
+        quiz:[
+          {q:'"There is a tree" 是什么意思？',opts:['有一棵树','树在哪','我喜欢树','树是什么'],ans:0},
+          {q:'单数事物用什么？',opts:['There are','There is','There have','There do'],ans:1},
+          {q:'复数事物用什么？',opts:['There is','There are','There has','There does'],ans:1},
+          {q:'"Is there any water?" 是什么意思？',opts:['有水吗？','水是什么？','水在哪里？','我喜欢水'],ans:0},
+          {q:'"a lot of" 是什么意思？',opts:['一个','一些','很多','没有'],ans:2}
+        ]
+      },
+      {id:'e10',title:'第10集：现在进行时',
+        video:'BV1LN9eBxEao',page:10,
+        desc:'Big Muzzy 第10集\n主题：现在进行时 "I am doing..."',
+        words:'doing, going, coming, eating, running, walking, sleeping, playing',
+        lines:['I am eating.','She is running.','He is going to the castle.','What are you doing?','I am walking.','They are playing.'],
+        quiz:[
+          {q:'"I am eating" 表示什么时间？',opts:['过去','现在','将来','不确定'],ans:1},
+          {q:'现在进行时的构成是？',opts:['am/is/are + 动词','am/is/are + 动词ing','do + 动词','will + 动词'],ans:1},
+          {q:'"She is running" 是什么意思？',opts:['她正在跑步','她跑过了','她将要跑','她喜欢跑步'],ans:0},
+          {q:'"What are you doing?" 是在问什么？',opts:['你是谁','你在做什么','你在哪里','你喜欢什么'],ans:1},
+          {q:'"playing" 的原形是什么？',opts:['play','played','plays','playing'],ans:0}
+        ]
+      },
+      {id:'e11',title:'第11集：一般过去时',
+        video:'BV1LN9eBxEao',page:11,
+        desc:'Big Muzzy 第11集\n主题：一般过去时 "I was.../I went..."',
+        words:'was, were, went, came, ate, saw, did, had, yesterday',
+        lines:['I was hungry.','She was in the castle.','We went to the forest.','He came yesterday.','I saw a big clock.','They had fun.'],
+        quiz:[
+          {q:'"I was hungry" 表示什么时间？',opts:['现在','过去','将来','不确定'],ans:1},
+          {q:'"was" 是哪个词的过去式？',opts:['is','are','am','be'],ans:2},
+          {q:'"went" 是哪个词的过去式？',opts:['come','go','eat','see'],ans:1},
+          {q:'"He came yesterday" 中的 yesterday 是什么意思？',opts:['今天','明天','昨天','后天'],ans:2},
+          {q:'"They had fun" 是什么意思？',opts:['他们现在很开心','他们玩得很开心','他们将很开心','他们不开心'],ans:1}
+        ]
+      },
+      {id:'e12',title:'第12集：复习与综合',
+        video:'BV1LN9eBxEao',page:12,
+        desc:'Big Muzzy 第12集\n主题：综合复习所有学过的内容',
+        words:'综合复习：I am, This is, Can I, Where, How many, I like, There is, doing, was, went',
+        lines:['I\'m Muzzy.','This is my friend Bob.','Can I have some food?','Where is the castle?','I like apples.','There is a garden.','I am eating.','I went to the forest.'],
+        quiz:[
+          {q:'"I\'m Muzzy" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],ans:0},
+          {q:'"Can I have some food?" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],ans:2},
+          {q:'"Where is the castle?" 用了什么句型？',opts:['自我介绍','介绍他人','请求','方位'],ans:3},
+          {q:'"I like apples" 用了什么句型？',opts:['自我介绍','喜好','请求','存在'],ans:1},
+          {q:'"There is a garden" 用了什么句型？',opts:['自我介绍','喜好','存在','方位'],ans:2}
+        ]
+      }
+    ]
+  },
+  game: {
+    name: '游戏',
+    icon: 'game',
+    goal: '通过完成作业获取积分，积分兑换 Minecraft 英语版游戏时间',
+    children: [
+      {id:'g1',title:'今日积分查看',desc:'每完成一项语文/数学/英语作业 +10 分\n全部完成额外 +50 分奖励\n查看今天完成作业获得的积分',isPointDisplay:true},
+      {id:'g2',title:'积分兑换游戏时间',desc:'50积分 = 15分钟游戏时间\n兑换后积分减少，游戏时间增加',isExchange:true},
+      {id:'g3',title:'Minecraft 英语版单词学习',desc:'游戏中常见英语单词：\nwood(木头), stone(石头), craft(制作), build(建造), mine(挖矿)\niron(铁), gold(金), diamond(钻石), sword(剑), pickaxe(镐)\nfarm(农场), wheat(小麦), bread(面包), furnace(熔炉), chest(箱子)',isWords:true},
+      {id:'g4',title:'游戏时间记录',desc:'建议每日游戏时间不超过30分钟\n记录今日已玩时间',isTimer:true}
+    ]
+  }
+};
+
+/* ============ ANCIENT QUOTES ============ */
+var QUOTES = [
+  {text:'学而时习之，不亦说乎？',source:'《论语·学而》',note:'学习后按时复习，不是很愉快吗？'},
+  {text:'温故而知新，可以为师矣。',source:'《论语·为政》',note:'温习旧知识，能有新体会，就可以做老师了。'},
+  {text:'三人行，必有我师焉。',source:'《论语·述而》',note:'几个人同行，其中一定有可以做我老师的人。'},
+  {text:'知之为知之，不知为不知，是知也。',source:'《论语·为政》',note:'知道就是知道，不知道就是不知道，这才是明智。'},
+  {text:'己所不欲，勿施于人。',source:'《论语·卫灵公》',note:'自己不愿做的事，不要强加给别人。'},
+  {text:'逝者如斯夫，不舍昼夜。',source:'《论语·子罕》',note:'消逝的时间像河水一样，日夜不停。'},
+  {text:'君子坦荡荡，小人长戚戚。',source:'《论语·述而》',note:'君子心胸宽广，小人经常忧愁。'},
+  {text:'人无远虑，必有近忧。',source:'《论语·卫灵公》',note:'人没有长远考虑，一定会有眼前的忧患。'},
+  {text:'不以规矩，不能成方圆。',source:'《孟子·离娄上》',note:'没有规矩，就不能画出方圆。强调规则的重要性。'},
+  {text:'生于忧患，死于安乐。',source:'《孟子·告子下》',note:'在忧患中生存发展，在安乐中萎靡死亡。'},
+  {text:'天时不如地利，地利不如人和。',source:'《孟子·公孙丑下》',note:'有利的时机不如有利的地势，有利的地势不如人心的团结。'},
+  {text:'老吾老以及人之老，幼吾幼以及人之幼。',source:'《孟子·梁惠王上》',note:'尊敬自己的长辈，进而尊敬别人的长辈；爱护自己的晚辈，进而爱护别人的晚辈。'},
+  {text:'富贵不能淫，贫贱不能移，威武不能屈。',source:'《孟子·滕文公下》',note:'富贵不能使他放纵，贫贱不能使他改变志向，威武不能使他屈服。'},
+  {text:'吾生也有涯，而知也无涯。',source:'《庄子·养生主》',note:'生命有限，知识无限。要善于学习。'},
+  {text:'千里之堤，毁于蚁穴。',source:'《韩非子·喻老》',note:'千里长堤，可能因为一个小蚁洞而崩溃。小事不慎可能酿成大祸。'},
+  {text:'锲而不舍，金石可镂。',source:'《荀子·劝学》',note:'不停地雕刻，金石也能刻出花纹。坚持不懈就能成功。'},
+  {text:'青，取之于蓝，而青于蓝。',source:'《荀子·劝学》',note:'靛青从蓝草提取，却比蓝草更蓝。学生可以超过老师。'},
+  {text:'不积跬步，无以至千里。',source:'《荀子·劝学》',note:'不积累小步，就无法到达千里之外。学习要一点一滴积累。'},
+  {text:'君子之交淡如水，小人之交甘若醴。',source:'《庄子·山木》',note:'君子交友平淡如水，小人交友甜蜜如酒。真正的友谊不靠利益。'},
+  {text:'吾十有五而志于学，三十而立。',source:'《论语·为政》',note:'我十五岁立志学习，三十岁能够自立。'},
+  {text:'知者不惑，仁者不忧，勇者不惧。',source:'《论语·子罕》',note:'聪明的人不迷惑，仁德的人不忧愁，勇敢的人不畏惧。'},
+  {text:'工欲善其事，必先利其器。',source:'《论语·卫灵公》',note:'工匠要做好工作，必须先磨好工具。准备工作很重要。'},
+  {text:'前事不忘，后事之师。',source:'《战国策·赵策》',note:'记住过去的教训，可以作为未来的借鉴。'},
+  {text:'满招损，谦受益。',source:'《尚书·大禹谟》',note:'自满招来损害，谦虚得到益处。'},
+  {text:'玉不琢，不成器；人不学，不知道。',source:'《礼记·学记》',note:'玉石不雕刻不成器物，人不学习不懂道理。'},
+  {text:'读万卷书，行万里路。',source:'《画旨》',note:'既要多读书，也要多实践，理论与实际结合。'},
+  {text:'业精于勤，荒于嬉。',source:'韩愈《进学解》',note:'学业因勤奋而精通，因嬉戏而荒废。'},
+  {text:'纸上得来终觉浅，绝知此事要躬行。',source:'陆游《冬夜读书示子聿》',note:'书本知识终究浅薄，要真正理解必须亲自实践。'},
+  {text:'少壮不努力，老大徒伤悲。',source:'《汉乐府·长歌行》',note:'年轻时不努力，年老时只能白白悲伤。'},
+  {text:'山不在高，有仙则名；水不在深，有龙则灵。',source:'刘禹锡《陋室铭》',note:'山不高有仙人就出名，水不深有龙就显灵。重在内涵而非外表。'},
+  {text:'人固有一死，或重于泰山，或轻于鸿毛。',source:'司马迁《报任安书》',note:'人总会死，但有的死比泰山还重，有的比鸿毛还轻。'},
+  {text:'先天下之忧而忧，后天下之乐而乐。',source:'范仲淹《岳阳楼记》',note:'在天下人忧虑之前先忧虑，在天下人快乐之后才快乐。'},
+  {text:'天下兴亡，匹夫有责。',source:'顾炎武《日知录》',note:'国家兴亡，每个普通人都有责任。'},
+  {text:'海纳百川，有容乃大。',source:'林则徐书联',note:'大海容纳百川，因为有容量所以大。人要胸怀宽广。'},
+  {text:'宝剑锋从磨砺出，梅花香自苦寒来。',source:'《警世贤文》',note:'宝剑的锋利靠磨砺，梅花的清香来自苦寒。成功需要艰苦努力。'}
+];
+
+/* ============ STATE ============ */
+var state = {
+  activeTab: 'chinese',
+  checked: {},
+  points: 0,
+  exchangedMinutes: 0,
+  playedMinutes: 0,
+  lastDate: '',
+  customTasks: [],
+  expandedTasks: {},
+  mathQuizAnswers: {},
+  enQuizAnswers: {}
+};
+
+/* ============ STORAGE ============ */
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    var saved = JSON.parse(raw);
+    // Migration: ensure all fields exist
+    state.checked = saved.checked || {};
+    state.points = saved.points || 0;
+    state.exchangedMinutes = saved.exchangedMinutes || 0;
+    state.playedMinutes = saved.playedMinutes || 0;
+    state.lastDate = saved.lastDate || '';
+    state.customTasks = saved.customTasks || [];
+    state.expandedTasks = saved.expandedTasks || {};
+    state.mathQuizAnswers = saved.mathQuizAnswers || {};
+    state.enQuizAnswers = saved.enQuizAnswers || {};
+    // Daily reset
+    checkDailyReset();
+  }catch(e){
+    console.error('loadState error',e);
+    state = {activeTab:'chinese',checked:{},points:0,exchangedMinutes:0,playedMinutes:0,lastDate:'',customTasks:[],expandedTasks:{},mathQuizAnswers:{},enQuizAnswers:{}};
+  }
+}
+
+function saveState(){
+  try{
+    state.lastDate = getTodayStr();
+    localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  }catch(e){
+    console.error('saveState error',e);
+  }
+}
+
+function getTodayStr(){
+  var d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+
+function checkDailyReset(){
+  var today = getTodayStr();
+  if(state.lastDate && state.lastDate !== today){
+    // Cross-day: reset checked, points, exchanged, played
+    state.checked = {};
+    state.points = 0;
+    state.exchangedMinutes = 0;
+    state.playedMinutes = 0;
+    state.mathQuizAnswers = {};
+    state.enQuizAnswers = {};
+    state.lastDate = today;
+    saveState();
+  }
+  if(!state.lastDate) state.lastDate = today;
+}
+
+/* ============ POINTS ============ */
+function calcPoints(){
+  var pts = 0;
+  var catKeys = ['chinese','math','english'];
+  catKeys.forEach(function(cat){
+    var children = TASKS[cat].children;
+    var allDone = true;
+    children.forEach(function(c){
+      if(state.checked[c.id]){
+        pts += 10;
+      } else {
+        allDone = false;
+      }
+    });
+    if(allDone) pts += 50;
+  });
+  // custom tasks in chinese/math/english
+  state.customTasks.forEach(function(ct){
+    if(catKeys.indexOf(ct.category) >= 0 && state.checked[ct.id]){
+      pts += 10;
+    }
+  });
+  // deduct exchanged
+  var deducted = state.exchangedMinutes * (50/15);
+  return pts - Math.floor(deducted);
+}
+
+function getTotalAvailablePoints(){
+  return calcPoints();
+}
+
+/* ============ RENDER ============ */
+function render(){
+  renderDate();
+  renderChips();
+  renderMain();
+  renderDrawer();
+}
+
+function renderDate(){
+  var d = new Date();
+  var weekDays = ['日','一','二','三','四','五','六'];
+  document.getElementById('dateDisplay').textContent = (d.getMonth()+1)+'/'+d.getDate()+' 周'+weekDays[d.getDay()];
+}
+
+function renderChips(){
+  var wrap = document.getElementById('chipsWrap');
+  var html = '';
+  ['chinese','math','english','game'].forEach(function(key){
+    var t = TASKS[key];
+    var cls = state.activeTab === key ? 'chip active' : 'chip';
+    var iconHtml = getChipIcon(t.icon);
+    html += '<div class="'+cls+'" onclick="switchTab(\''+key+'\')">'+iconHtml+'<span>'+t.name+'</span></div>';
+  });
+  wrap.innerHTML = html;
+}
+
+function getChipIcon(iconType){
+  var colors = {chinese:'#6B9080',math:'#5B7FB0',english:'#B06B8F',game:'var(--orange)'};
+  var labels = {chinese:'语',math:'数',english:'英',game:'游'};
+  return '<span class="chip-icon-'+iconType+'" style="background:'+colors[iconType]+'">'+labels[iconType]+'</span>';
+}
+
+function renderMain(){
+  var main = document.getElementById('mainArea');
+  var cat = TASKS[state.activeTab];
+  var html = '';
+
+  // Ancient quote card
+  var qIdx = Math.floor(Date.now() / 86400000) % QUOTES.length;
+  // Use UTC day
+  var utcDays = Math.floor(Date.now() / 86400000);
+  qIdx = utcDays % QUOTES.length;
+  var q = QUOTES[qIdx];
+  html += '<div class="quote-card">';
+  html += '<div class="q-title">古文观止 · 每日一句</div>';
+  html += '<div class="q-text">'+q.text+'</div>';
+  html += '<div class="q-source">'+q.source+'</div>';
+  html += '<div class="q-note">'+q.note+'</div>';
+  html += '</div>';
+
+  // Goal card
+  html += '<div class="goal-card"><span class="goal-label">学习目标：</span>'+cat.goal+'</div>';
+
+  // Point display for game tab
+  if(state.activeTab === 'game'){
+    var avail = getTotalAvailablePoints();
+    html += '<div class="point-display">';
+    html += '<div class="pt-label">今日积分</div>';
+    html += '<div class="pt-val">'+avail+'</div>';
+    html += '<div class="pt-row">';
+    html += '<div class="pt-item"><span>'+state.exchangedMinutes+'</span><small>已兑换(分钟)</small></div>';
+    html += '<div class="pt-item"><span>'+state.playedMinutes+'</span><small>已玩(分钟)</small></div>';
+    html += '</div></div>';
+  }
+
+  // Task items
+  var allChildren = cat.children.concat(getCustomChildren(state.activeTab));
+  allChildren.forEach(function(child){
+    var isExpanded = state.expandedTasks[child.id];
+    var isChecked = state.checked[child.id];
+    var completedCls = isChecked ? 'task-item completed' : 'task-item';
+    var checkCls = isChecked ? 'check checked' : 'check';
+    var checkContent = isChecked ? '✓' : '';
+    var titleCls = isChecked ? 'task-title done' : 'task-title';
+    var expandCls = isExpanded ? 'expand-icon open' : 'expand-icon';
+    var detailCls = isExpanded ? 'task-detail show' : 'task-detail';
+
+    html += '<div class="'+completedCls+'">';
+    html += '<div class="task-header">';
+    html += '<div class="'+checkCls+'" onclick="toggleCheck(\''+child.id+'\')">'+checkContent+'</div>';
+    html += '<span class="'+titleCls+'">'+child.title+'</span>';
+    html += '<span class="'+expandCls+'" onclick="toggleExpand(\''+child.id+'\')">▼</span>';
+    html += '</div>';
+
+    html += '<div class="'+detailCls+'">';
+    // Video link
+    if(child.video && child.video !== ''){
+      var vUrl = child.video;
+      if(vUrl.startsWith('BV')){
+        vUrl = 'https://www.bilibili.com/video/' + vUrl;
+      }
+      html += '<div class="task-video"><a href="'+vUrl+'" target="_blank">▶ 观看视频</a></div>';
+    }
+
+    // English special layout
+    if(state.activeTab === 'english' && child.video && child.video.startsWith('BV')){
+      html += '<div class="english-dual">';
+      html += '<div class="video-col">';
+      var page = child.page || 1;
+      html += '<iframe src="//player.bilibili.com/player.html?bvid='+child.video+'&page='+page+'&high_quality=1" width="100%" height="260" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>';
+      html += '</div>';
+      html += '<div class="read-col">';
+      if(child.lines && child.lines.length > 0){
+        html += '<div style="font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">跟读台词</div>';
+        child.lines.forEach(function(line,i){
+          html += '<div class="line-item" onclick="speakLine(\''+line.replace(/'/g,"\\'")+'\')">';
+          html += '<div class="line-label">第'+(i+1)+'句</div>';
+          html += '<div>'+line+'</div>';
+          html += '</div>';
+        });
+      }
+      if(child.words){
+        html += '<div class="words">重点单词：'+child.words+'</div>';
+      }
+      html += '</div></div>';
+    }
+
+    // English quiz
+    if(child.quiz && state.activeTab === 'english'){
+      html += renderEnQuiz(child);
+    }
+
+    // Math quiz
+    if(child.quiz && state.activeTab === 'math'){
+      html += renderMathQuiz(child);
+    }
+
+    // Description
+    if(child.desc && (!child.quiz || state.activeTab !== 'math')){
+      if(state.activeTab !== 'english' || !child.video || !child.video.startsWith('BV')){
+        html += '<div class="task-desc">'+child.desc.replace(/\n/g,'<br>')+'</div>';
+      }
+    }
+
+    // Game special features
+    if(child.isPointDisplay){
+      var avail2 = getTotalAvailablePoints();
+      html += '<div class="task-desc">语文/数学/英语每完成一项 +10 分<br>三科全部完成额外各 +50 分<br>当前可用积分：<strong>'+avail2+'</strong></div>';
+    }
+    if(child.isExchange){
+      var avail3 = getTotalAvailablePoints();
+      html += '<div class="task-desc">50积分 = 15分钟游戏时间<br>今日已兑换：'+state.exchangedMinutes+' 分钟<br>可用积分：'+avail3+'</div>';
+      if(avail3 >= 50){
+        html += '<button style="padding:10px 20px;border-radius:8px;background:var(--orange);color:#fff;border:none;cursor:pointer;font-weight:700;font-size:14px;margin-top:8px" onclick="exchangeTime()">兑换15分钟</button>';
+      }
+    }
+    if(child.isWords){
+      html += '<div class="task-desc">'+child.desc.replace(/\n/g,'<br>')+'</div>';
+      // Minecraft words flashcard
+      var mcWords = [
+        {en:'wood',cn:'木头'}, {en:'stone',cn:'石头'}, {en:'craft',cn:'制作'}, {en:'build',cn:'建造'},
+        {en:'mine',cn:'挖矿'}, {en:'iron',cn:'铁'}, {en:'gold',cn:'金'}, {en:'diamond',cn:'钻石'},
+        {en:'sword',cn:'剑'}, {en:'pickaxe',cn:'镐'}, {en:'farm',cn:'农场'}, {en:'wheat',cn:'小麦'},
+        {en:'bread',cn:'面包'}, {en:'furnace',cn:'熔炉'}, {en:'chest',cn:'箱子'}
+      ];
+      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+      mcWords.forEach(function(w){
+        html += '<div style="padding:6px 12px;border-radius:8px;background:var(--card-2);border:1px solid var(--line);font-size:13px;cursor:pointer" onclick="speakLine(\''+w.en+'\')">'+w.en+'('+w.cn+')</div>';
+      });
+      html += '</div>';
+    }
+    if(child.isTimer){
+      html += '<div class="task-desc">建议每日游戏时间不超过30分钟<br>今日已玩：'+state.playedMinutes+' 分钟</div>';
+      html += '<div style="margin-top:8px">';
+      html += '<button style="padding:8px 14px;border-radius:8px;background:var(--ok);color:#fff;border:none;cursor:pointer;font-size:13px;font-weight:600" onclick="addPlayed5()">+5分钟</button>';
+      html += '<button style="padding:8px 14px;border-radius:8px;background:var(--card-2);color:var(--ink);border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600;margin-left:6px" onclick="addPlayed10()">+10分钟</button>';
+      html += '<button style="padding:8px 14px;border-radius:8px;background:var(--card-2);color:var(--ink);border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600;margin-left:6px" onclick="resetPlayed()">重置</button>';
+      html += '</div>';
+    }
+
+    html += '</div></div>';
+  });
+
+  main.innerHTML = html;
+}
+
+function renderMathQuiz(child){
+  var html = '<div class="math-quiz">';
+  html += '<div style="font-size:14px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">练习题</div>';
+  var answers = state.mathQuizAnswers[child.id] || {};
+  var score = 0;
+  child.quiz.forEach(function(q,i){
+    if(answers[i] === q.ans) score++;
+  });
+  html += '<div class="math-quiz" data-taskid="'+child.id+'">';
+  child.quiz.forEach(function(q,i){
+    var answered = answers[i];
+    var isCorrect = answered === q.ans;
+    var isWrong = answered !== undefined && !isCorrect;
+    html += '<div class="mq-item">';
+    html += '<div class="mq-text">'+(i+1)+'. '+q.q+'</div>';
+    html += '<div class="mq-opts">';
+    q.opts.forEach(function(opt,oi){
+      var optCls = 'mq-opt';
+      if(isCorrect && oi === q.ans) optCls = 'mq-opt correct';
+      if(isWrong && oi === answered) optCls = 'mq-opt wrong';
+      var disabled = isCorrect ? 'style="pointer-events:none"' : '';
+      html += '<div class="'+optCls+'" '+disabled+' onclick="answerMath(\''+child.id+'\','+i+','+oi+')">'+opt+'</div>';
+    });
+    html += '</div></div>';
+  });
+  html += '<div class="mq-score">得分：'+score+'/'+child.quiz.length+'</div>';
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderEnQuiz(child){
+  var html = '<div class="en-quiz">';
+  html += '<div style="font-size:14px;font-weight:700;color:var(--orange-deep);margin-bottom:8px">练习题</div>';
+  var answers = state.enQuizAnswers[child.id] || {};
+  var score = 0;
+  child.quiz.forEach(function(q,i){
+    if(answers[i] === q.ans) score++;
+  });
+  child.quiz.forEach(function(q,i){
+    var answered = answers[i];
+    var isCorrect = answered === q.ans;
+    var isWrong = answered !== undefined && !isCorrect;
+    html += '<div class="q-item">';
+    html += '<div class="q-text">'+(i+1)+'. '+q.q+'</div>';
+    html += '<div class="q-opts">';
+    q.opts.forEach(function(opt,oi){
+      var optCls = 'q-opt';
+      if(isCorrect && oi === q.ans) optCls = 'q-opt correct';
+      if(isWrong && oi === answered) optCls = 'q-opt wrong';
+      var disabled = isCorrect ? 'style="pointer-events:none"' : '';
+      html += '<div class="'+optCls+'" '+disabled+' onclick="answerEn(\''+child.id+'\','+i+','+oi+')">'+opt+'</div>';
+    });
+    html += '</div></div>';
+  });
+  html += '<div style="text-align:center;font-size:14px;font-weight:700;color:var(--orange-deep);margin-top:8px">得分：'+score+'/'+child.quiz.length+'</div>';
+  html += '</div>';
+  return html;
+}
+
+function getCustomChildren(category){
+  return state.customTasks.filter(function(ct){ return ct.category === category; });
+}
+
+function renderDrawer(){
+  var content = document.getElementById('drawerContent');
+  var html = '';
+  ['chinese','math','english','game'].forEach(function(key){
+    var t = TASKS[key];
+    var total = t.children.length + getCustomChildren(key).length;
+    var done = 0;
+    t.children.forEach(function(c){ if(state.checked[c.id]) done++; });
+    getCustomChildren(key).forEach(function(c){ if(state.checked[c.id]) done++; });
+    html += '<div class="d-section">';
+    html += '<div class="d-section-title">'+t.name+'</div>';
+    t.children.forEach(function(c){
+      var icon = getChipIcon(t.icon);
+      var checkedMark = state.checked[c.id] ? ' ✓' : '';
+      html += '<div class="d-task" onclick="switchTab(\''+key+'\');toggleExpand(\''+c.id+'\');toggleDrawer()">';
+      html += icon+'<span class="d-name">'+c.title+checkedMark+'</span>';
+      html += '</div>';
+    });
+    getCustomChildren(key).forEach(function(c){
+      html += '<div class="d-task" onclick="switchTab(\''+key+'\');toggleExpand(\''+c.id+'\');toggleDrawer()">';
+      html += getChipIcon(t.icon)+'<span class="d-name">'+c.title+'</span>';
+      html += '</div>';
+    });
+    html += '<div style="font-size:12px;color:var(--ink-soft);padding:4px 6px">'+done+'/'+total+' 已完成</div>';
+    html += '</div>';
+  });
+  content.innerHTML = html;
+}
+
+/* ============ ACTIONS ============ */
+function switchTab(tab){
+  state.activeTab = tab;
+  saveState();
+  render();
+}
+
+function toggleCheck(id){
+  try{
+    if(state.checked[id]){
+      delete state.checked[id];
+    } else {
+      state.checked[id] = true;
+      // Auto check math quiz if all correct
+      checkMathQuizCompletion(id);
+      checkEnQuizCompletion(id);
+    }
+    state.points = calcPoints();
+    saveState();
+    render();
+  }catch(e){console.error('toggleCheck error',e)}
+}
+
+function checkMathQuizCompletion(id){
+  // Find math child with this id
+  var child = null;
+  TASKS.math.children.forEach(function(c){ if(c.id === id) child = c; });
+  if(!child || !child.quiz) return;
+  var answers = state.mathQuizAnswers[id] || {};
+  var allCorrect = true;
+  child.quiz.forEach(function(q,i){
+    if(answers[i] !== q.ans) allCorrect = false;
+  });
+  if(allCorrect && !state.checked[id]){
+    state.checked[id] = true;
+  }
+}
+
+function checkEnQuizCompletion(id){
+  var child = null;
+  TASKS.english.children.forEach(function(c){ if(c.id === id) child = c; });
+  if(!child || !child.quiz) return;
+  var answers = state.enQuizAnswers[id] || {};
+  var allCorrect = true;
+  child.quiz.forEach(function(q,i){
+    if(answers[i] !== q.ans) allCorrect = false;
+  });
+  if(allCorrect && !state.checked[id]){
+    state.checked[id] = true;
+  }
+}
+
+function toggleExpand(id){
+  state.expandedTasks[id] = !state.expandedTasks[id];
+  saveState();
+  render();
+}
+
+function answerMath(taskId, qIdx, optIdx){
+  try{
+    if(!state.mathQuizAnswers[taskId]) state.mathQuizAnswers[taskId] = {};
+    var child = null;
+    TASKS.math.children.forEach(function(c){ if(c.id === taskId) child = c; });
+    if(!child) return;
+    var q = child.quiz[qIdx];
+    // If already correct, skip
+    if(state.mathQuizAnswers[taskId][qIdx] === q.ans) return;
+    state.mathQuizAnswers[taskId][qIdx] = optIdx;
+    // Check if all correct -> auto mark complete
+    var allCorrect = true;
+    child.quiz.forEach(function(qq,i){
+      if(state.mathQuizAnswers[taskId][i] !== qq.ans) allCorrect = false;
+    });
+    if(allCorrect){
+      state.checked[taskId] = true;
+    }
+    saveState();
+    render();
+  }catch(e){console.error('answerMath error',e)}
+}
+
+function answerEn(taskId, qIdx, optIdx){
+  try{
+    if(!state.enQuizAnswers[taskId]) state.enQuizAnswers[taskId] = {};
+    var child = null;
+    TASKS.english.children.forEach(function(c){ if(c.id === taskId) child = c; });
+    if(!child) return;
+    var q = child.quiz[qIdx];
+    if(state.enQuizAnswers[taskId][qIdx] === q.ans) return;
+    state.enQuizAnswers[taskId][qIdx] = optIdx;
+    var allCorrect = true;
+    child.quiz.forEach(function(qq,i){
+      if(state.enQuizAnswers[taskId][i] !== qq.ans) allCorrect = false;
+    });
+    if(allCorrect){
+      state.checked[taskId] = true;
+    }
+    saveState();
+    render();
+  }catch(e){console.error('answerEn error',e)}
+}
+
+function exchangeTime(){
+  try{
+    var avail = getTotalAvailablePoints();
+    if(avail >= 50){
+      state.exchangedMinutes += 15;
+      saveState();
+      render();
+    }
+  }catch(e){console.error('exchangeTime error',e)}
+}
+
+function addPlayed5(){
+  try{
+    state.playedMinutes += 5;
+    saveState();
+    render();
+  }catch(e){console.error('addPlayed5 error',e)}
+}
+
+function addPlayed10(){
+  try{
+    state.playedMinutes += 10;
+    saveState();
+    render();
+  }catch(e){console.error('addPlayed10 error',e)}
+}
+
+function resetPlayed(){
+  try{
+    state.playedMinutes = 0;
+    saveState();
+    render();
+  }catch(e){console.error('resetPlayed error',e)}
+}
+
+function speakLine(text){
+  try{
+    if('speechSynthesis' in window){
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.8;
+      speechSynthesis.speak(u);
+    }
+  }catch(e){console.error('speakLine error',e)}
+}
+
+/* ============ DRAWER ============ */
+function toggleDrawer(){
+  var overlay = document.getElementById('drawerOverlay');
+  var drawer = document.getElementById('drawer');
+  var isOpen = overlay.classList.contains('open');
+  if(isOpen){
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+  } else {
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+  }
+}
+
+/* ============ ADD MODAL ============ */
+function openAddModal(){
+  document.getElementById('addModal').classList.add('open');
+}
+
+function closeAddModal(){
+  document.getElementById('addModal').classList.add('open');
+  document.getElementById('addModal').classList.remove('open');
+}
+
+function saveCustomTask(){
+  try{
+    var cat = document.getElementById('addCategory').value;
+    var name = document.getElementById('addName').value.trim();
+    if(!name){ alert('请输入任务名称'); return; }
+    var video = document.getElementById('addVideo').value.trim();
+    var desc = document.getElementById('addDesc').value.trim();
+    var id = 'custom_' + Date.now();
+    state.customTasks.push({
+      id: id,
+      category: cat,
+      title: name,
+      video: video,
+      desc: desc
+    });
+    saveState();
+    closeAddModal();
+    document.getElementById('addName').value = '';
+    document.getElementById('addVideo').value = '';
+    document.getElementById('addDesc').value = '';
+    render();
+  }catch(e){console.error('saveCustomTask error',e)}
+}
+
+/* ============ INIT ============ */
+function init(){
+  loadState();
+  render();
+
+  // Register SW
+  if('serviceWorker' in navigator){
+    try{
+      navigator.serviceWorker.register('./sw.js').then(function(reg){
+        console.log('SW registered',reg);
+      }).catch(function(err){
+        console.error('SW register error',err);
+      });
+    }catch(e){console.error('SW error',e)}
+  }
+}
+
+// Make functions global
+window.switchTab = switchTab;
+window.toggleCheck = toggleCheck;
+window.toggleExpand = toggleExpand;
+window.toggleDrawer = toggleDrawer;
+window.openAddModal = openAddModal;
+window.closeAddModal = closeAddModal;
+window.saveCustomTask = saveCustomTask;
+window.answerMath = answerMath;
+window.answerEn = answerEn;
+window.exchangeTime = exchangeTime;
+window.addPlayed5 = addPlayed5;
+window.addPlayed10 = addPlayed10;
+window.resetPlayed = resetPlayed;
+window.speakLine = speakLine;
+
+init();
+
+})();
+</script>
+</body>
+</html>
